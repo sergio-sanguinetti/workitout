@@ -1,151 +1,103 @@
 'use client';
-
-import React, { useState } from 'react';
-import Image from "next/image";
-import styles from "./page.module.css";
-
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import React, { useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { DOMAIN_BACK,DOMAIN_FRONT } from '../../env';
 
 
+export default function Login() {
 
-export default function Home() {
+  const [correo, setCorreo] = useState('')
+  const [contraseña, setContraseña] = useState('')
 
+  /**@async funcion para logear a la plataforma */
   
-const [state, setState] = useState({
-  top: false,
-  left: false,
-  bottom: false,
-  right: false,
-});
+   const Logearse = () => {
+       console.log(correo);
+       console.log(contraseña);
+       
+       const regexCorreo = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+      //  const regexContrasena = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-
-const toggleDrawer = (anchor, open) => (event) => {
-  if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-    return;
-  }
-
-  setState({ ...state, [anchor]: open });
-};
-
-const list = (anchor) => (
-  <Box
-    sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-    role="presentation"
-    style={{backgroundColor:'#a7e92f'}}
-    onClick={toggleDrawer(anchor, false)}
-    onKeyDown={toggleDrawer(anchor, false)}
-  >
-    <List>
-      {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-        <ListItem key={text} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-    <Divider />
-    <List>
-      {['All mail', 'Trash', 'Spam'].map((text, index) => (
-        <ListItem key={text} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-  </Box>
-);
+         if (regexCorreo.test(correo) && contraseña.length > 0) {
+          if (correo === "utp@utp.edu.pe" && contraseña === "Contraseña1!") {
+            toast.success("Redirigiendo a la plataforma!", {
+              position: "top-right"
+            });
+             setTimeout(() => {
+                 window.location.href = DOMAIN_FRONT+'inicio';
+             }, 2000);
+          } else {
+            toast.error("Correo o Contraseña Incorrectos!", {
+              position: "top-center"
+            });
+          }
+        } else {
+          toast.error("Ingrese los datos correctamente!", {
+            position: "top-center"
+          });
+        }
+        
+     
+   
+   }
 
 
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Plataforma WORKITOUT&nbsp;
-          
-        </p>
-      
-       
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div>
-      {['left', 'right', 'top', 'bottom'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button style={{color:"#a7e92f"}} onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
-    </div>
-
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="#"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Prueba <span>-&gt;</span>
-          </h2>
-          <p>Prueba PWA.</p>
-        </a>
-
-
-       
-   
-      </div>
-    </main>
-  );
+    <>
+    <ToastContainer />
+    <section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+				
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-5">
+					<div class="wrap">
+						
+            <div className="img" style={{ backgroundImage: 'url("/login/bg-1.jpg")' }}></div>
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="">
+			      		<div class="text-center">
+                   <center>
+			      		   	<h3 class="mb-4">LOGIN WORKITOUT</h3>
+                  </center>
+			      		</div>
+								<div class="w-100">
+									<p class="social-media d-flex justify-content-end">
+										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+									</p>
+								</div>
+			      	</div>
+							<form action="#" class="signin-form">
+			      		<div class="form-group mt-3">
+			      			<input type="mail" class="form-control" value={correo} onChange={(e)=>setCorreo(e.target.value)} required/>
+			      			<label class="form-control-placeholder" for="username">Correo Electrónico</label>
+			      		</div>
+		            <div class="form-group mt-5">
+		              <input id="password-field" type="password" class="form-control"  value={contraseña} onChange={(e)=>setContraseña(e.target.value)} required/>
+		              <label class="form-control-placeholder" for="password">Contraseña</label>
+		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+		            </div>
+		            <div class="form-group">
+		            	<button type="button" class="form-control btn btn-primary rounded submit px-3" onClick={Logearse}>INGRESAR</button>
+		            </div>
+		            <div class="form-group d-md-flex">
+									<div class="w-50 text-md-left">
+										<a href="#" style={{color:'#01d28e'}}>Te olvidaste la contraseña?</a>
+									</div>
+		            </div>
+		          </form>
+		          <p class="text-center">Aún no te registras? <a data-toggle="tab" href="#signup">REGISTRARSE</a></p>
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+  </>
+  )
 }

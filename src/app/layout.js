@@ -1,21 +1,21 @@
-import "./globals.css";
+// import "./globals.css";
 import { Inter } from "next/font/google";
+import './boostrap.css';
+import './globals.css';
+import Sidebar from "./components/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "PWA with Next 13",
-  description: "PWA application with Next 13",
+  title: "WORKITOUT",
+  description: "Plataforma de servicios",
   generator: "Next.js",
   manifest: "/manifest.json",
   keywords: ["nextjs", "nextjs13", "next13", "pwa", "next-pwa"],
   themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
   authors: [
-    { name: "Rajesh Prajapati" },
-    {
-      name: "Rajesh Prajapati",
-      url: "https://www.linkedin.com/in/raazeshp96/",
-    },
+    { name: "Sergio Sanguinetti" },
+   
   ],
   viewport: "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
   icons: [
@@ -27,7 +27,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+         <div style={{ display: 'flex' }}>
+            <Sidebar />
+            {children}
+         </div>
+        </body>
     </html>
   );
 }
