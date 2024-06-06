@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { DOMAIN_BACK,DOMAIN_FRONT } from '../../env';
+// import { DOMAIN_BACK,DOMAIN_FRONT } from '../../env';
 
 
 export default function Login() {
@@ -24,9 +24,9 @@ export default function Login() {
             toast.success("Redirigiendo a la plataforma!", {
               position: "top-right"
             });
-             setTimeout(() => {
-                 window.location.href = DOMAIN_FRONT+'plataforma';
-             }, 2000);
+            //  setTimeout(() => {
+            //      window.location.href = DOMAIN_FRONT+'plataforma';
+            //  }, 2000);
           } else {
             toast.error("Correo o Contraseña Incorrectos!", {
               position: "top-center"
