@@ -15,7 +15,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-
+import BuildIcon from '@mui/icons-material/Build';
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,7 +35,7 @@ const Sidebar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Home', 'About', 'Portfolio', 'FAQ', 'Contact'].map((text, index) => (
+        {['Inicio', 'Registro de Solicitud', 'Registro Quejas', 'Historial', 'Contacto'].map((text, index) => (
           <Link href={`/${text.toLowerCase()}`} key={text}>
             <ListItem button>
               <ListItemIcon>
@@ -52,10 +52,10 @@ const Sidebar = () => {
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['Perfil', 'Configuraciones'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {index % 2 === 0 ? <InboxIcon /> : <BuildIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
