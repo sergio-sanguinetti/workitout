@@ -25,7 +25,7 @@ export default function Login() {
               position: "top-right"
             });
              setTimeout(() => {
-                 window.location.href = DOMAIN_FRONT+'inicio';
+                 window.location.href = DOMAIN_FRONT+'plataforma';
              }, 2000);
           } else {
             toast.error("Correo o Contraseña Incorrectos!", {

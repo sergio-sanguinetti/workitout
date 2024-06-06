@@ -66,12 +66,22 @@ const Sidebar = () => {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)} className={styles.toggleButton}>
-        {isOpen ? <FaTimes /> : <FaBars />}
-      </Button>
+     
       <Drawer anchor={'left'} open={isOpen} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
+        <nav>
+           <div class="logo">
+             <img src="/logo_work.png" alt="logo"/>
+           </div>
+           <ul>
+             <li>
+             <Button onClick={toggleDrawer(true)} className={styles.toggleButton} style={{color:'#000',fontSize:'20px'}}>
+              {isOpen ? <FaTimes /> : <FaBars />}
+              </Button>
+             </li>
+           </ul>
+         </nav>
     </div>
   );
 };
