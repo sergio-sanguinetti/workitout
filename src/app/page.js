@@ -5,8 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_BACK, DOMAIN_FRONT } from '../../env';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { signIn, signOut, useSession } from 'next-auth/react';
+
 
 export default function Login() {
+
+  const { data: session } = useSession();
+
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -107,6 +112,20 @@ export default function Login() {
                     </div>
                   </form>
                   <p className="text-center">Aún no te registras? <a data-toggle="tab" href={DOMAIN_FRONT+'registro'}>REGISTRARSE</a></p>
+                  <div className="form-group">
+                  {!session ? (
+                   <>
+                     <h1>Not signed in</h1>
+                     <button  className="form-control btn btn-danger rounded submit px-3"  onClick={() => signIn('google')}>Sign in with Google</button>
+                   </>
+                 ) : (
+                   <>
+                     <h1>Signed in as {session.user.email}</h1>
+                     <button  className="form-control btn btn-danger rounded submit px-3" onClick={() => signOut()}>Sign out</button>
+                   </>
+                 )}
+                    
+                    </div>
                 </div>
               </div>
             </div>
