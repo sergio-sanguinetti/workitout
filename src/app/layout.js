@@ -4,7 +4,8 @@ import { Inter } from "next/font/google";
 import './boostrap.css';
 import './globals.css';
 import Sidebar from "./components/sidebar";
-import { SessionProvider } from 'next-auth/react';
+import { Providers } from "./Providers";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -29,9 +30,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-          {/* <SessionProvider> */}
+          <Providers>
             {children}
-          {/* </SessionProvider> */}
+          </Providers>
         </body>
     </html>
   );

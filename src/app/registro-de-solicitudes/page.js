@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../components/sidebar';
-import './registroSolicitud.css';
+import './RegistroSolicitud.css';
 
 const RegistroSolicitud = () => {
   const [user] = useState({

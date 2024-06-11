@@ -10,7 +10,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function Login() {
 
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -99,6 +99,9 @@ export default function Login() {
                     </div>
                   </form>
                   <p className="text-center">Aún no te registras? <a data-toggle="tab" href={DOMAIN_FRONT+'registro'}>REGISTRARSE</a></p>
+                  <div class="form-group">
+                      <button type="button" class="form-control btn btn-primary rounded submit px-3" onClick={()=> signIn()}>GOOGLE</button>
+                    </div>
                 </div>
               </div>
             </div>
