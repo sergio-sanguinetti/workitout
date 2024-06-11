@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_BACK, DOMAIN_FRONT } from '../../../env';
@@ -7,36 +8,91 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function Login() {
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [ciudad, setCiudad] = useState('');
+  const [distrito, setDistrito] = useState('');
+  const [direccion, setDireccion] = useState('');
   const [correo, setCorreo] = useState('');
-  const [contraseña, setContraseña] = useState('');
+  const [password, setPassword] = useState('');
+  const [contraseña2, setContraseña2] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  /**@async funcion para logear a la plataforma */
-  const Logearse = () => {
-    console.log(correo);
-    console.log(contraseña);
+  /** @async function for user registration */
+  const Registrarse = async () => {
+    // Validate if both passwords match
+    if (password === contraseña2) {
+      const regexCorreo = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+      const regex_nombres = /^[a-zA-Z\s]{2,}$/;
+      const regex_telefono = /^\d{9}$/;
+      const regex_direccion = /^[a-zA-Z0-9\s,'-.#]+$/;
 
-    const regexCorreo = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+    
+      if (
+        regex_nombres.test(nombre) &&
+        regex_nombres.test(apellido) &&
+        regex_telefono.test(telefono) &&
+        regex_nombres.test(ciudad) &&
+        regex_nombres.test(distrito) &&
+        regex_direccion.test(direccion) &&
+        regexCorreo.test(correo) &&
+        password.length > 0
+      ) {
+    
+          const formulario = new FormData();
+          formulario.append('nombre', nombre);
+          formulario.append('apellido', apellido); 
+          formulario.append('telefono', telefono); 
+          formulario.append('email', correo); 
+          formulario.append('password', password); 
+          formulario.append('direccion', direccion); 
+          formulario.append('distrito', distrito); 
+          formulario.append('provincia', ciudad); 
+         
+      
+          try {
+            const response = await fetch(`${DOMAIN_BACK}?tabla=crear_usuario`, {
+              method: 'POST',
+              body: formulario,
+            });
+         
+            const data = await response.json();
+          
 
-    if (regexCorreo.test(correo) && contraseña.length > 0) {
-      if (correo === "utp@utp.edu.pe" && contraseña === "Contraseña1!") {
-        toast.success("Redirigiendo a la plataforma!", {
-          position: "top-right"
-        });
-        setTimeout(() => {
-          window.location.href = DOMAIN_FRONT + 'plataforma';
-        }, 2000);
+
+          console.log(data);
+
+          if (data.estado === 1) {
+            toast.success(data.mensaje, {
+              position: "top-right"
+            });
+
+            setTimeout(() => {
+              window.location = DOMAIN_FRONT;
+            }, 2000);
+          } else {
+            toast.error(data.mensaje, {
+              position: "top-right"
+            });
+          }
+        } catch (error) {
+          console.error('No se registró el usuario:', error);
+          toast.error('No se registró el usuario:', {
+            position: "top-right"
+          });
+        }
       } else {
-        toast.error("Correo o Contraseña Incorrectos!", {
+        toast.error("Ingrese los datos correctamente!", {
           position: "top-center"
         });
       }
     } else {
-      toast.error("Ingrese los datos correctamente!", {
+      toast.error("Ambas contraseñas deben ser iguales!", {
         position: "top-center"
       });
     }
-  }
+  };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -45,85 +101,84 @@ export default function Login() {
   return (
     <>
       <ToastContainer />
-      <section class="ftco-section">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-md-6 text-center mb-5"></div>
+      <section className="ftco-section">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-6 text-center mb-5"></div>
           </div>
-          <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-              <div class="wrap">
+          <div className="row justify-content-center">
+            <div className="col-md-7 col-lg-5">
+              <div className="wrap">
                 <div className="img" style={{ backgroundImage: 'url("/login/bg-1.jpg")' }}></div>
-                <div class="login-wrap p-4 p-md-5">
-                  <div class="">
-                    <div class="text-center">
+                <div className="login-wrap p-4 p-md-5">
+                  <div className="">
+                    <div className="text-center">
                       <center>
-                        <h3 class="mb-4"> Registrate en WorkItOut</h3>
+                        <h3 className="mb-4">Regístrate en WorkItOut</h3>
                       </center>
                     </div>
-                 
                   </div>
-                  <form action="#" class="">
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Ingresa sus nombres</label>
-                      <input type="mail" class="form-control p-2" required />
+                  <form className="">
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="nombre">Ingresa tus nombres</label>
+                      <input type="text" className="form-control p-2" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Ingrese sus apellidos</label>
-                      <input type="mail" class="form-control p-2" required />
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="apellido">Ingresa tus apellidos</label>
+                      <input type="text" className="form-control p-2" value={apellido} onChange={(e) => setApellido(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Ingrese su teléfono</label>
-                      <input type="mail" class="form-control p-2" required />
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="telefono">Ingresa tu teléfono</label>
+                      <input type="tel" className="form-control p-2" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Ingrese su ciudad</label>
-                      <input type="mail" class="form-control p-2" required />
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="ciudad">Ingresa tu ciudad</label>
+                      <input type="text" className="form-control p-2" value={ciudad} onChange={(e) => setCiudad(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Ingrese su distrito</label>
-                      <input type="mail" class="form-control p-2" required />
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="distrito">Ingresa tu distrito</label>
+                      <input type="text" className="form-control p-2" value={distrito} onChange={(e) => setDistrito(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Ingrese su direccion</label>
-                      <input type="mail" class="form-control p-2" required />
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="direccion">Ingresa tu dirección</label>
+                      <input type="text" className="form-control p-2" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} for="username">Correo Electrónico</label>
-                      <input type="mail" class="form-control p-2" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} htmlFor="correo">Correo Electrónico</label>
+                      <input type="email" className="form-control p-2" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} class="" for="password">Contraseña</label>
-                      <div class="input-group">
-                        <input id="password-field" type={showPassword ? "text" : "password"} class="form-control p-2" value={contraseña} onChange={(e) => setContraseña(e.target.value)} required />
-                        <div class="input-group-append">
-                          <button type="button" class="btn btn-outline-secondary" onClick={toggleShowPassword}>
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} className="" htmlFor="contraseña">Contraseña</label>
+                      <div className="input-group">
+                        <input id="contraseña" type={showPassword ? "text" : "password"} className="form-control p-2" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        <div className="input-group-append">
+                          <button type="button" className="btn btn-outline-secondary" onClick={toggleShowPassword}>
                             {showPassword ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}
                           </button>
                         </div>
                       </div>
                     </div>
-                    <div class="form-group mt-3">
-                      <label style={{ color: '#000' }} class="" for="password"> Repetir Contraseña</label>
-                      <div class="input-group">
-                        <input id="password-field" type={showPassword ? "text" : "password"} class="form-control p-2" value={contraseña} onChange={(e) => setContraseña(e.target.value)} required />
-                        <div class="input-group-append">
-                          <button type="button" class="btn btn-outline-secondary" onClick={toggleShowPassword}>
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }} className="" htmlFor="contraseña2">Repetir Contraseña</label>
+                      <div className="input-group">
+                        <input id="contraseña2" type={showPassword ? "text" : "password"} className="form-control p-2" value={contraseña2} onChange={(e) => setContraseña2(e.target.value)} required />
+                        <div className="input-group-append">
+                          <button type="button" className="btn btn-outline-secondary" onClick={toggleShowPassword}>
                             {showPassword ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}
                           </button>
                         </div>
                       </div>
                     </div>
-                    <div class="form-group">
-                      <button type="button" class="form-control btn btn-primary rounded submit px-3" onClick={Logearse}>REGISTRARSE</button>
+                    <div className="form-group">
+                      <button type="button" className="form-control btn btn-primary rounded submit px-3" onClick={Registrarse}>REGISTRARSE</button>
                     </div>
-                    <div class="form-group d-md-flex">
-                      <div class="w-50 text-md-left">
+                    <div className="form-group d-md-flex">
+                      <div className="w-50 text-md-left">
                         {/* <a href="#" style={{ color: '#01d28e' }}>Te olvidaste la contraseña?</a> */}
                       </div>
                     </div>
                   </form>
-                  <p class="text-center">Ya tienes una cuenta? <a data-toggle="tab" href={DOMAIN_FRONT}>INGRESAR</a></p>
+                  <p className="text-center">¿Ya tienes una cuenta? <a href={DOMAIN_FRONT}>INGRESAR</a></p>
                 </div>
               </div>
             </div>
