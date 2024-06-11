@@ -32,7 +32,7 @@ const Sidebar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Inicio', 'Registro de Solicitud', 'Registro Quejas', 'Historial', 'Contacto'].map((text, index) => (
+        {['plataforma', 'Registro-de-Solicitudes', 'Registro Quejas', 'Historial', 'Contacto'].map((text, index) => (
           <Link href={`/${text.toLowerCase()}`} key={text}>
             <ListItem button>
               <ListItemIcon>
