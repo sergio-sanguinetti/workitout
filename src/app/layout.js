@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 // import "./globals.css";
 import { Inter } from "next/font/google";
 import './boostrap.css';
@@ -29,9 +29,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-          <SessionProvider>
+          {/* <SessionProvider> */}
             {children}
-          </SessionProvider>
+          {/* </SessionProvider> */}
         </body>
     </html>
   );
