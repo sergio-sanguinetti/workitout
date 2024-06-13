@@ -42,6 +42,14 @@ const Sidebar = () => {
            <ListItemText primary="Plataforma" />
          </ListItem>
        </Link>
+       <Link href="/registro-de-especialista">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <FaHome />
+           </ListItemIcon>
+           <ListItemText primary="Registro de Especialista" />
+         </ListItem>
+       </Link>
        <Link href="/registro-de-solicitudes">
          <ListItem className="item-list">
            <ListItemIcon>
