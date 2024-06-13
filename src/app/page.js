@@ -6,6 +6,7 @@ import { DOMAIN_BACK, DOMAIN_FRONT } from '../../env';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export default function Login() {
 
@@ -21,7 +22,10 @@ export default function Login() {
   
     if (regexCorreo.test(correo) && contraseña.length > 0) {
       try {
-        const response = await fetch(`${DOMAIN_BACK}?controller=users&action=login`, {
+        const url = `${DOMAIN_BACK}?controller=users&action=login`;
+        console.log('Enviando solicitud a:', url);
+  
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -32,9 +36,14 @@ export default function Login() {
           })
         });
   
-        const data = await response.json();
+        console.log('Respuesta recibida:', response);
   
-        console.log(data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log('Datos recibidos:', data);
   
         if (data.estado === 1) {
           toast.success(data.mensaje, {
@@ -51,6 +60,7 @@ export default function Login() {
           });
         }
       } catch (error) {
+        console.error('Error al logearse:', error);
         toast.error('Error al logearse: ' + error.message, {
           position: "top-right"
         });
@@ -80,16 +90,18 @@ export default function Login() {
           <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
               <div className="wrap">
-                <div className="img" style={{ backgroundImage: 'url("/login/bg-1.jpg")' }}></div>
+                <div className="img">
+                  <img src="/logo_work.png" alt="logo" width={'100%'} height={'90%'}/>
+                </div>
                 <div className="login-wrap p-4 p-md-5">
                   <div className="">
                     <div className="text-center">
                       <center>
-                        <h3 className="mb-4">WorkItOut</h3>
+                        {/* <h3 className="mb-4">WorkItOut</h3> */}
                       </center>
                     </div>
                   </div>
-                  <form action="#" className="">
+                  <form action="#" className="mt-5">
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }} htmlFor="username">Correo Electrónico</label>
                       <input type="mail" className="form-control p-2" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
@@ -120,8 +132,9 @@ export default function Login() {
                  
                        {!session ? (
                          <>
-                           <p>No estás autenticado</p>
-                           <button onClick={() => signIn('google')}>Iniciar sesión con Google</button>
+                          <center>
+                             <button className='btn btn-danger p-2' onClick={() => signIn('google')}> <GoogleIcon/> Iniciar sesión con Google </button>
+                           </center>
                          </>
                        ) : (
                          <>

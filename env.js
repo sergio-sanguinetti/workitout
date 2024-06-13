@@ -1,7 +1,7 @@
 
 
 // const DOMAIN_FRONT = "http://localhost:3000/";
-// const DOMAIN_BACK = "http://localhost:3002/";
+// const DOMAIN_BACK = "http://localhost/nueva_api/";
 
 
 

@@ -27,8 +27,7 @@ export default function Login() {
       const regex_nombres = /^[a-zA-Z\s]{2,}$/;
       const regex_telefono = /^\d{9}$/;
       const regex_direccion = /^[a-zA-Z0-9\s,'-.#]+$/;
-
-    
+  
       if (
         regex_nombres.test(nombre) &&
         regex_nombres.test(apellido) &&
@@ -39,37 +38,36 @@ export default function Login() {
         regexCorreo.test(correo) &&
         password.length > 0
       ) {
-    
-          const formulario = new FormData();
-          formulario.append('nombre', nombre);
-          formulario.append('apellido', apellido); 
-          formulario.append('telefono', telefono); 
-          formulario.append('email', correo); 
-          formulario.append('password', password); 
-          formulario.append('direccion', direccion); 
-          formulario.append('distrito', distrito); 
-          formulario.append('provincia', ciudad); 
-         
-      
-          try {
-            const response = await fetch(`${DOMAIN_BACK}?tabla=crear_usuario`, {
-              method: 'POST',
-              body: formulario,
-            });
-         
-            const data = await response.json();
-          
-
-
+        const payload = {
+          nombre: nombre,
+          apellido: apellido,
+          telefono: telefono,
+          email: correo,
+          password: password,
+          direccion: direccion,
+          distrito: distrito,
+          provincia: ciudad
+        };
+  
+        try {
+          const response = await fetch(`${DOMAIN_BACK}?tabla=crear_usuario`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+  
+          const data = await response.json();
           console.log(data);
-
+  
           if (data.estado === 1) {
             toast.success(data.mensaje, {
               position: "top-right"
             });
-
+  
             setTimeout(() => {
-              window.location = DOMAIN_FRONT;
+              window.location.href = DOMAIN_FRONT;
             }, 2000);
           } else {
             toast.error(data.mensaje, {
@@ -93,6 +91,7 @@ export default function Login() {
       });
     }
   };
+  
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
