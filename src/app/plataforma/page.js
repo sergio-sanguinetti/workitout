@@ -1,35 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../boostrap.css';
 import Sidebar from '../components/sidebar';
 import '../estilos/globales.css';
 
-const services = [
-  { name: "Remodelación y construcción", count: 1199 },
-  { name: "Limpieza", count: 569 },
-  { name: "Asistencia doméstica", count: 838 },
-  { name: "Reparación e instalación de equipos", count: 456 },
-  { name: "Taller de carro, moto o cicla", count: 656 },
-  { name: "Maquinaria especial", count: 11 },
-  { name: "Servicios profesionales", count: 749 },
-  { name: "Servicios de belleza", count: 332 }
-];
 
 export default function Inicio() {
- 
- 
-
-
   const [searchTerm, setSearchTerm] = useState('');
+  const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState(services);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // Fetch categories from the backend
+    fetch('http://localhost:8080/api_workitout/obtenerCategorias.php?tabla=obtener_categorias')
+      .then(response => response.json())
+      .then(data => {
+        setServices(data);
+        setFilteredServices(data);
+      })
+      .catch(error => console.error('Error fetching services:', error));
+  }, []);
 
   const handleSearch = (event) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
     const filtered = services.filter(service =>
-      service.name.toLowerCase().includes(term)
+      service.nombreCategoria.toLowerCase().includes(term)
     );
     setFilteredServices(filtered);
   };
@@ -64,11 +62,11 @@ export default function Inicio() {
         </div>
         <div className="row">
           {filteredServices.map(service => (
-            <div key={service.name} className="col-md-4 mb-3">
-              <div className="card" onClick={() => handleClick(service.name)}>
-                <div className="card-body">
-                  <h5 className="card-title">{service.name}</h5>
-                  <p className="card-text">{service.count} especialistas</p>
+            <div key={service.idCategoria} className="col-md-4 mb-3">
+            <div className="card" onClick={() => handleClick(service.nombreCategoria)}>
+              <div className="card-body">
+                <h5 className="card-title">{service.nombreCategoria}</h5>
+                <p className="card-text">{service.count} encuentra especialistas</p>
                 </div>
               </div>
             </div>

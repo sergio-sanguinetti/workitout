@@ -113,7 +113,7 @@ const Sidebar = () => {
         </ul>
       </nav>
       <footer className="footer">
-        <button className="footerButton">Servicios</button>
+        <a href='/plataforma'><button className="footerButton">Servicios</button></a>
         <button className="footerButton">Mis solicitudes</button>
       </footer>
     </div>
