@@ -21,7 +21,10 @@ export default function Login() {
   
     if (regexCorreo.test(correo) && contraseña.length > 0) {
       try {
-        const response = await fetch(`${DOMAIN_BACK}?controller=users&action=login`, {
+        const url = `${DOMAIN_BACK}?controller=users&action=login`;
+        console.log('Enviando solicitud a:', url);
+  
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -32,9 +35,14 @@ export default function Login() {
           })
         });
   
-        const data = await response.json();
+        console.log('Respuesta recibida:', response);
   
-        console.log(data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log('Datos recibidos:', data);
   
         if (data.estado === 1) {
           toast.success(data.mensaje, {
@@ -51,6 +59,7 @@ export default function Login() {
           });
         }
       } catch (error) {
+        console.error('Error al logearse:', error);
         toast.error('Error al logearse: ' + error.message, {
           position: "top-right"
         });
