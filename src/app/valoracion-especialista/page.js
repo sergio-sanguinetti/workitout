@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { FaStar } from 'react-icons/fa';
-import styles from './valoracion-especialista.css';
+import styles from './valoracion-especialista.module.css';
 
 export default function ValoracionEspecialista() {
   const [rating, setRating] = useState(0);
