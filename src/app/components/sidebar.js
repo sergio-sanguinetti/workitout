@@ -14,6 +14,8 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import BuildIcon from '@mui/icons-material/Build';
 import styles from './sidebar.css';
 
+import './listaSidebar.css'
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,26 +34,52 @@ const Sidebar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['plataforma', 'Registro-de-Solicitudes', 'Registro Quejas', 'Historial', 'Contacto'].map((text, index) => (
-          <Link href={`/${text.toLowerCase()}`} key={text}>
-            <ListItem button>
-              <ListItemIcon>
-                {index === 0 && <FaHome />}
-                {index === 1 && <FaInfoCircle />}
-                {index === 2 && <FaBriefcase />}
-                {index === 3 && <FaQuestionCircle />}
-                {index === 4 && <FaEnvelope />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
+       <Link href="/plataforma">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <FaHome />
+           </ListItemIcon>
+           <ListItemText primary="Plataforma" />
+         </ListItem>
+       </Link>
+       <Link href="/registro-de-solicitudes">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <FaInfoCircle />
+           </ListItemIcon>
+           <ListItemText primary="Registro de Solicitudes" />
+         </ListItem>
+       </Link>
+       <Link href="/registro-quejas">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <FaBriefcase />
+           </ListItemIcon>
+           <ListItemText primary="Registro Quejas" />
+         </ListItem>
+       </Link>
+       <Link href="/historial">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <FaQuestionCircle />
+           </ListItemIcon>
+           <ListItemText primary="Historial" />
+         </ListItem>
+       </Link>
+       <Link href="/contacto">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <FaEnvelope />
+           </ListItemIcon>
+           <ListItemText primary="Contacto" />
+         </ListItem>
+       </Link>
+     </List>
       <Divider />
       <List>
         {['Perfil', 'Configuraciones'].map((text, index) => (
           <Link href={`/${text.toLowerCase()}`} key={text}>
-            <ListItem button key={text}>
+            <ListItem className="item-list" key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <BuildIcon />}
               </ListItemIcon>
@@ -76,9 +104,9 @@ const Sidebar = () => {
           <span className={styles.clientText}>Cliente</span>
           <FaChevronDown className={styles.downArrow} />
         </Button>
-        <ul>
-          <li>
-            <Button onClick={toggleDrawer(true)} className={styles.toggleButton}>
+        <ul style={{listStyle:'none'}}>
+          <li style={{listStyle:'none'}}>
+            <Button style={{fontSize:'25px',backgroundColor:'#fff',color:'#000'}} onClick={toggleDrawer(true)} className={styles.toggleButton}>
               {isOpen ? <FaTimes /> : <FaBars />}
             </Button>
           </li>

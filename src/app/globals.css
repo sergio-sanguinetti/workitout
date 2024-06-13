@@ -17,6 +17,9 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
  :root {
   --blue: #007bff;
   --indigo: #6610f2;
