@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../components/sidebar';
@@ -10,26 +10,52 @@ const RegistroSolicitud = () => {
     name: 'Nombre Usuario',
     rating: 4.8,
   });
+
   const [formData, setFormData] = useState({
-    nombreSolicitud: '',
     categoriaServicio: '',
+    Servicio: '',
     descripcionServicio: '',
     direccion: '',
     fechaHora: '',
+    precio: ''
   });
 
+  const [categorias, setCategorias] = useState([]);
+  const [servicios, setServicios] = useState([]);
+
+  useEffect(() => {
+    // Obtener categorías al cargar el componente
+    fetch(`http://localhost:8080/api_workitout/obtenerCategorias.php?tabla=obtener_categorias`)
+      .then(response => response.json())
+      .then(data => setCategorias(data))
+      .catch(error => console.error('Error al obtener categorías:', error));
+  }, []);
+
+ 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    // Si el campo cambiado es la categoría de servicio, obtener los servicios correspondientes
+    if (e.target.name === 'categoriaServicio') {
+      fetch(`http://localhost:8080/api_workitout/obtenerServicios.php?tabla=obtener_servicios&idCategoria=${e.target.value}`)
+        .then(response => response.json())
+        .then(data => setServicios(data))
+        .catch(error => console.error('Error al obtener servicios:', error));
+    }
   };
 
   const validateForm = () => {
-    const { nombreSolicitud, categoriaServicio, descripcionServicio, direccion, fechaHora } = formData;
-    if (!nombreSolicitud || !categoriaServicio || !descripcionServicio || !direccion || !fechaHora) {
+    const { categoriaServicio, Servicio, descripcionServicio, direccion, fechaHora, precio } = formData;
+    if (!categoriaServicio || !Servicio || !descripcionServicio || !direccion || !fechaHora || !precio) {
       toast.error('Todos los campos son obligatorios');
       return false;
     }
     if (new Date(fechaHora) <= new Date()) {
       toast.error('La fecha y hora deben ser futuras');
+      return false;
+    }
+    if (!/^\d+(\.\d{1,2})?$/.test(precio)) {
+      toast.error('El precio debe ser un valor monetario válido');
       return false;
     }
     return true;
@@ -60,24 +86,32 @@ const RegistroSolicitud = () => {
                 </div>
                   <form onSubmit={handleSubmit}>
                     <div className="form-group mt-3">
-                      <label style={{ color: '#000' }}>Seleccione la categoria de servicio</label>
-                      <input
-                        type="text"
-                        className="form-control p-2"
-                        name="nombreSolicitud"
-                        value={formData.nombreSolicitud}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group mt-3">
-                      <label style={{ color: '#000' }}>Seleccione el servicio</label>
-                      <input
-                        type="text"
+                      <label style={{ color: '#000' }}>Seleccione la categoría de servicio</label>
+                      <select
                         className="form-control p-2"
                         name="categoriaServicio"
                         value={formData.categoriaServicio}
                         onChange={handleChange}
-                      />
+                      >
+                        <option value="">Seleccione una categoría</option>
+                        {categorias.map(categoria => (
+                          <option key={categoria.idCategoria} value={categoria.idCategoria}>{categoria.nombreCategoria}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group mt-3">
+                    <label style={{ color: '#000' }}>Seleccione el servicio</label>
+                      <select
+                        className="form-control p-2"
+                        name="Servicio"
+                        value={formData.Servicio}
+                        onChange={handleChange}
+                      >
+                        <option value="">Seleccione un servicio</option>
+                        {servicios.map(servicio => (
+                          <option key={servicio.idServicio} value={servicio.idServicio}>{servicio.nombreServicio}</option>
+                        ))}
+                      </select>
                     </div>
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }}>Descripción servicio</label>
@@ -110,6 +144,16 @@ const RegistroSolicitud = () => {
                         className="form-control p-2"
                         name="fechaHora"
                         value={formData.fechaHora}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }}>Precio</label>
+                      <input
+                        type="text"
+                        className="form-control p-2"
+                        name="precio"
+                        value={formData.precio}
                         onChange={handleChange}
                       />
                     </div>
