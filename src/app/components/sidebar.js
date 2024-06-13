@@ -104,13 +104,13 @@ const Sidebar = () => {
       <Drawer anchor={'left'} open={isOpen} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
-      <nav className={styles.navbar}>
+      <nav className={styles.navbar} style={{marginBottom:'4em'}}>
         <div className="logo">
           <img src="/logo_work.png" alt="logo" className={styles.logo} />
         </div>
         <Button className={styles.clientButton}>
-          <span className={styles.clientText}>Cliente</span>
-          <FaChevronDown className={styles.downArrow} />
+          <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  className={styles.clientText}>Cliente <FaChevronDown className={styles.downArrow} /></span>
+          
         </Button>
         <ul style={{listStyle:'none'}}>
           <li style={{listStyle:'none'}}>
