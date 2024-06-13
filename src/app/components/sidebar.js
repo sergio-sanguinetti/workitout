@@ -12,9 +12,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import BuildIcon from '@mui/icons-material/Build';
-import styles from './sidebar.css';
+import styles from './sidebar.module.css';
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+
 
 import './listaSidebar.css'
+import '../estilos/globales.css'
+import { DOMAIN_FRONT } from '../../../env';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,14 +30,27 @@ const Sidebar = () => {
     }
     setIsOpen(open);
   };
-
+// style="max-width: 50%; height: auto;"
   const list = () => (
     <Box
-      sx={{ width: 250 }}
+      sx={{ width: 300 }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+    <div class="row align-items-center text-center mt-3">
+       <div class="col-md-5">
+         <img src="/profile.png" alt="logo" class="img-fluid" style={{maxWidth:'50%',height:'auto'}}  />
+         <h6>Nombre Apellido</h6>
+       </div>
+       <div class="col-md-7 marginLeft-rating">
+         <Stack spacing={1} justifyContent="center" alignItems="center">
+           <Rating name="size-medium" readOnly precision={0.5} defaultValue={5} />
+  
+         </Stack>
+       </div>
+     </div>
+
       <List>
        <Link href="/plataforma">
          <ListItem className="item-list">
@@ -66,7 +84,7 @@ const Sidebar = () => {
            <ListItemText primary="Registro Quejas" />
          </ListItem>
        </Link>
-       <Link href="/historial">
+       <Link href="#">
          <ListItem className="item-list">
            <ListItemIcon>
              <FaQuestionCircle />
@@ -74,7 +92,7 @@ const Sidebar = () => {
            <ListItemText primary="Historial" />
          </ListItem>
        </Link>
-       <Link href="/contacto">
+       <Link href="#">
          <ListItem className="item-list">
            <ListItemIcon>
              <FaEnvelope />
@@ -85,17 +103,23 @@ const Sidebar = () => {
      </List>
       <Divider />
       <List>
-        {['Perfil', 'Configuraciones'].map((text, index) => (
-          <Link href={`/${text.toLowerCase()}`} key={text}>
-            <ListItem className="item-list" key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <BuildIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
+       <Link href="/perfil">
+         <ListItem className="item-list">
+           <ListItemIcon>
+           <InboxIcon />
+           </ListItemIcon>
+           <ListItemText primary="Perfil" />
+         </ListItem>
+       </Link>
+       <Link href={DOMAIN_FRONT}>
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <BuildIcon />
+           </ListItemIcon>
+           <ListItemText primary="Cerrar Sesión" />
+         </ListItem>
+       </Link>
+     </List>
     </Box>
   );
 
@@ -106,7 +130,7 @@ const Sidebar = () => {
       </Drawer>
       <nav className={styles.navbar} style={{marginBottom:'4em'}}>
         <div className="logo">
-          <img src="/logo_work.png" alt="logo" className={styles.logo} />
+          <img src="/logo_work.png" alt="logo" className={styles.logo}  width={'50%'}/>
         </div>
         <Button className={styles.clientButton}>
           <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  className={styles.clientText}>Cliente <FaChevronDown className={styles.downArrow} /></span>
@@ -120,9 +144,9 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-      <footer className="footer">
-        <a href='/plataforma'><button className="footerButton">Servicios</button></a>
-        <button className="footerButton">Mis solicitudes</button>
+      <footer className={styles.footer}>
+        <a href='/plataforma'><button  className={styles.footerButton}>Servicios</button></a>
+        <button className={styles.footerButton}>Mis solicitudes</button>
       </footer>
     </div>
   );
