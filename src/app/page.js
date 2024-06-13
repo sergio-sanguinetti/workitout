@@ -15,34 +15,36 @@ export default function Login() {
   const [contraseña, setContraseña] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  /**@async funcion para logear a la plataforma */
+  //** @async función para logearse a la plataforma */
   const Logearse = async () => {
     const regexCorreo = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-
+  
     if (regexCorreo.test(correo) && contraseña.length > 0) {
-      const formulario = new FormData();
-      formulario.append('email', correo);
-      formulario.append('password', contraseña);
-
       try {
-        const response = await fetch(`${DOMAIN_BACK}?tabla=acceder_sistemaWORK`, {
+        const response = await fetch(`${DOMAIN_BACK}?controller=users&action=login`, {
           method: 'POST',
-          body: formulario,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: correo,
+            password: contraseña
+          })
         });
-     
+  
         const data = await response.json();
-
+  
         console.log(data);
-
+  
         if (data.estado === 1) {
           toast.success(data.mensaje, {
             position: "top-right"
           });
-
+  
           setTimeout(() => {
             window.location.href = DOMAIN_FRONT + 'plataforma';
           }, 2000);
-
+  
         } else {
           toast.error(data.mensaje, {
             position: "top-right"
@@ -53,13 +55,15 @@ export default function Login() {
           position: "top-right"
         });
       }
-    
+  
     } else {
       toast.error("Correo o Contraseña Incorrectos!", {
         position: "top-center"
       });
     }
   }
+  
+
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
