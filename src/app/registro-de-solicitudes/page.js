@@ -4,18 +4,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
-//import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../env';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 // MAPA LEATFLET
-
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -38,7 +36,7 @@ const ChangeMapView = ({ coords }) => {
 };
 
 const RegistroSolicitud = () => {
-  //const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
   const [position, setPosition] = useState([51.505, -0.09]); // Ubicación inicial (Londres)
   const [searchQuery, setSearchQuery] = useState('');
@@ -77,7 +75,7 @@ const RegistroSolicitud = () => {
     }
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,7 +99,7 @@ const RegistroSolicitud = () => {
   const [precio, setPrecio] = useState('');
 
   useEffect(() => {
-    fetch(DOMAIN_BACK+`?controller=categorias&action=traer_categorias`)
+    fetch(`${DOMAIN_BACK}?controller=categorias&action=traer_categorias`)
       .then(response => response.json())
       .then(data => setCategorias(data))
       .catch(error => console.error('Error al obtener categorías:', error));
@@ -111,8 +109,7 @@ const RegistroSolicitud = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
     if (e.target.name === 'categoriaServicio') {
-      fetch(DOMAIN_BACK+`?controller=servicios&action=traer_servicios&idCategoria=${e.target.value}`)
-           
+      fetch(`${DOMAIN_BACK}?controller=servicios&action=traer_servicios&idCategoria=${e.target.value}`)
         .then(response => response.json())
         .then(data => setServicios(data))
         .catch(error => console.error('Error al obtener servicios:', error));
@@ -124,7 +121,6 @@ const RegistroSolicitud = () => {
   };
 
   const validateForm = () => {
-    console.log(descripcionServicio, direccion, fechaHoraAtencion, precio, idServicio);
     if (!idServicio || !descripcionServicio || !direccion || !fechaHoraAtencion || !precio) {
       toast.error('Todos los campos son obligatorios');
       return false;
@@ -144,13 +140,13 @@ const RegistroSolicitud = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch(DOMAIN_BACK+'?controller=solicitudes&action=crear_solicitud', {
+        const response = await fetch(`${DOMAIN_BACK}?controller=solicitudes&action=crear_solicitud`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            //user_id: session?.user?.id,
+            // user_id: session?.user?.id,
             idCliente: 1,
             idServicio: idServicio,
             descripcionServicio: descripcionServicio,
@@ -165,7 +161,7 @@ const RegistroSolicitud = () => {
           toast.success(data.mensaje);
           setTimeout(() => {
             if (typeof window !== 'undefined') {
-             window.location.href = DOMAIN_FRONT + 'plataforma';
+              window.location.href = `${DOMAIN_FRONT}plataforma`;
             }
           }, 2000);
         } else {
@@ -182,15 +178,15 @@ const RegistroSolicitud = () => {
     <>
       <ToastContainer />
       <Sidebar />
-      <section className="profile-section" style={{marginTop:'8rem'}}>
-        <div className="container" style={{marginTop:'4rem'}}>
+      <section className="profile-section" style={{ marginTop: '8rem' }}>
+        <div className="container" style={{ marginTop: '4rem' }}>
           <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
               <div className="wrap">
                 <div className="profile-wrap p-4 p-md-5">
-                <center>
+                  <center>
                     <h3 className="form-title"><b>Registro de Solicitud</b></h3>
-                </center>
+                  </center>
                   <form onSubmit={handleSubmit}>
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }}>Seleccione la categoría de servicio</label>
@@ -237,9 +233,9 @@ const RegistroSolicitud = () => {
                         name="direccion"
                         value={direccion}
                         onChange={(e) => {
-                             setDireccion(e.target.value);
-                             setSearchQuery(e.target.value);
-                            }}
+                          setDireccion(e.target.value);
+                          setSearchQuery(e.target.value);
+                        }}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -247,7 +243,7 @@ const RegistroSolicitud = () => {
                         Marcar Ubicación
                       </button>
                     </div>
-                    
+
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }}>Fecha y Hora</label>
                       <input
@@ -288,32 +284,31 @@ const RegistroSolicitud = () => {
           {"Busca tu dirección en el mapa para poder localizarte"}
         </DialogTitle>
         <DialogContent>
-         <input
-           type="text"
-           className="form-control p-2"
-           value={searchQuery}
-           onChange={(e) => setSearchQuery(e.target.value)}
-           placeholder="Buscar dirección"
-         />
-         <button className="btn btn-primary mb-4 mt-2"onClick={handleSearch}>Buscar</button>
-         <div className="form-group mt-3">
+          <input
+            type="text"
+            className="form-control p-2"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Buscar dirección"
+          />
+          <button className="btn btn-primary mb-4 mt-2" onClick={handleSearch}>Buscar</button>
+          <div className="form-group mt-3">
             <button type="button" className="btn btn-secondary form-control" onClick={handleCurrentLocation}>
               Usar mi Ubicación Actual
             </button>
           </div>
-         <MapContainer center={position} zoom={13} style={{ height: '500px', width: '100%',marginTop:'20px'}}>
-           <TileLayer
-             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-           />
-          <Marker position={position} draggable={true} eventHandlers={{ dragend: handleMarkerDragEnd }}>
-            <Popup>Ubicación buscada</Popup>
-           </Marker>
-           <ChangeMapView coords={position} />
-         </MapContainer>
+          <MapContainer center={position} zoom={13} style={{ height: '500px', width: '100%', marginTop: '20px' }}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={position} draggable={true} eventHandlers={{ dragend: handleMarkerDragEnd }}>
+              <Popup>Ubicación buscada</Popup>
+            </Marker>
+            <ChangeMapView coords={position} />
+          </MapContainer>
         </DialogContent>
         <DialogActions>
-          {/* <Button onClick={handleClose}>Cerrar</Button> */}
           <Button className='btn btn-primary' onClick={handleClose} autoFocus>
             Guardar
           </Button>
