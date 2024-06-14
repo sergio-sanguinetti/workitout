@@ -21,6 +21,7 @@
     "bootstrap": "^5.3.3",
     "cdbreact": "^1.5.19",
     "classnames": "^2.2.6",
+    "leaflet": "^1.9.4",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "next-pwa": "^5.6.0",
@@ -29,6 +30,7 @@
     "react-bootstrap-sidebar-menu": "^2.0.3",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "react-leaflet": "^4.2.1",
     "react-scripts": "3.0.1",
     "react-toastify": "^10.0.5",
     "webpack": "^5.91.0"
