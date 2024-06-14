@@ -181,7 +181,7 @@ const Sidebar = () => {
       </nav>
       <footer className={styles.footer}>
         <a href='/plataforma'><button  className={styles.footerButton}>Ofertas</button></a>
-        <button className={styles.footerButton}>Mis solicitudes</button>
+        <a href='../visualizacion-solicitudes-especialista'><button  className={styles.footerButton}>Mis solicitudes</button></a>
       </footer>
     </div>
   );

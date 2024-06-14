@@ -1,7 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/sidebarEspecialista.js';
 import './visualizacion-solicitudes-especialista.css';
+
 
 const historialServicios = [
   {
