@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../boostrap.css';
 import SidebarEspecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
@@ -8,7 +8,6 @@ import './platform-especialista.css';
 
 export default function PlataformaEspecialista() {
   const [searchTerm, setSearchTerm] = useState('');
-  //const [services, setServices] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const services = [
@@ -42,7 +41,7 @@ export default function PlataformaEspecialista() {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
     const filtered = services.filter(service =>
-      service.nombreServicio.toLowerCase().includes(term)
+      service.name.toLowerCase().includes(term)
     );
     setFilteredServices(filtered);
   };
@@ -61,7 +60,7 @@ export default function PlataformaEspecialista() {
   return (
     <>
       <SidebarEspecialista isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
-      <div className="content" style={{maxWidth:'700px',margin:'9rem auto'}}>
+      <div className="content" style={{ maxWidth: '700px', margin: '9rem auto' }}>
         <h3 className='color-primary text-center'><b>Empieza a ver las ofertas que hay para ti</b></h3>
         <div className="row justify-content-center mb-4">
           <div className="col-md-6">
@@ -74,16 +73,22 @@ export default function PlataformaEspecialista() {
             />
           </div>
         </div>
+<<<<<<< Updated upstream
         <div className="card-container" >
           {filteredServices.map(services => (
             <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
               <a href='/visualizacion-ofertas'>
+=======
+        <div className="card-container">
+          {filteredServices.map(service => (
+            <div key={service.name} className="card" onClick={() => handleClick(service.name)} style={{ marginTop: "1rem" }}>
+>>>>>>> Stashed changes
               <div className="card-header">
-                <h5 className="card-title">{services.name}</h5>
-                <p className="card-price">{services.price}</p>
-                <p className="card-body">{services.description}</p>
-                <p className="card-footer">{services.location}</p>
-                <p className="card-footer">{services.date}</p>
+                <h5 className="card-title">{service.name}</h5>
+                <p className="card-price">{service.price}</p>
+                <p className="card-body">{service.description}</p>
+                <p className="card-footer">{service.location}</p>
+                <p className="card-footer">{service.date}</p>
               </div>
               </a>
             </div>

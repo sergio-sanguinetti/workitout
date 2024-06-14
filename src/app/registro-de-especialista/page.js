@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -21,6 +21,9 @@ export default function RegisterSpecialist() {
     confirmacionIdentidad: null,
     antecedentesNoPenales: null
   });
+
+ 
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;

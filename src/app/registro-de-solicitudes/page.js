@@ -136,6 +136,12 @@ const RegistroSolicitud = () => {
     return true;
   };
 
+
+  // useEffect(() => {
+    const id_usuario = localStorage.getItem('id_usuarioWORK');
+  // }, [])
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -147,7 +153,7 @@ const RegistroSolicitud = () => {
           },
           body: JSON.stringify({
             // user_id: session?.user?.id,
-            idCliente: 1,
+            idCliente: id_usuario,
             idServicio: idServicio,
             descripcionServicio: descripcionServicio,
             direccion: direccion,
@@ -160,9 +166,7 @@ const RegistroSolicitud = () => {
         if (data.estado === 1) {
           toast.success(data.mensaje);
           setTimeout(() => {
-            // if (typeof window !== 'undefined') {
-            //   window.location.href = `${DOMAIN_FRONT}plataforma`;
-            // }
+            window.location.href = DOMAIN_FRONT+'plataforma';
           }, 2000);
         } else {
           toast.error(data.mensaje);
@@ -317,5 +321,6 @@ const RegistroSolicitud = () => {
     </>
   );
 };
+
 
 export default RegistroSolicitud;

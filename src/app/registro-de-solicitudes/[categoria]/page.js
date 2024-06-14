@@ -93,6 +93,8 @@ const RegistroSolicitud = ({ params }) => {
     return true;
   };
 
+  const id_usuario = localStorage.getItem('id_usuarioWORK');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -103,7 +105,7 @@ const RegistroSolicitud = ({ params }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            idCliente: 1,
+            idCliente: id_usuario,
             idServicio,
             descripcionServicio,
             direccion,
@@ -115,10 +117,8 @@ const RegistroSolicitud = ({ params }) => {
         const data = await response.json();
         if (data.estado === 1) {
           toast.success(data.mensaje);
-          setTimeout(() => {
-            // if (typeof window !== 'undefined') {
-            //   window.location.href = `${DOMAIN_FRONT}plataforma`;
-            // }
+           setTimeout(() => {
+             window.location.href = DOMAIN_FRONT+'plataforma';
           }, 2000);
         } else {
           toast.error(data.mensaje);

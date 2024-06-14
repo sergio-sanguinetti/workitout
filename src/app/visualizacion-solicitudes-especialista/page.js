@@ -1,48 +1,47 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/sidebarEspecialista.js';
 import './visualizacion-solicitudes-especialista.css';
-
 
 const historialServicios = [
   {
     nombreCliente: "Juan Pérez",
-    servicio: "Servicio de mascotas",
+    servicio: "Mascotas",
     descripcion: "Servicio de bañado a poddle (raza mediana)",
     direccion: "Av. Arequipa #520",
-    fecha: "23/02/2023",
+    fecha: "2023-02-14", 
     estado: "EFECTIVO"
   },
   {
     nombreCliente: "Ana García",
-    servicio: "Servicio de mascotas",
+    servicio: "Mascotas",
     descripcion: "Servicio de bañado a Rottweiler (raza grande)",
     direccion: "Av. Arequipa #520",
-    fecha: "23/02/2023",
+    fecha: "2024-03-24", 
     estado: "VAPE"
   },
   {
     nombreCliente: "Carlos Ruiz",
-    servicio: "Servicio de limpieza",
+    servicio: "Limpieza",
     descripcion: "Servicio limpieza a local",
     direccion: "Av. Arequipa #520",
-    fecha: "23/02/2023",
+    fecha: "2024-02-03", 
     estado: "EFECTIVO"
   },
   {
     nombreCliente: "María López",
-    servicio: "Servicio de resparación",
-    descripcion: "Servicio de reapración de tuberia",
+    servicio: "Reparación",
+    descripcion: "Servicio de reparación de tuberia",
     direccion: "Av. Arequipa #520",
-    fecha: "23/02/2023",
+    fecha: "2024-06-13", 
     estado: "EFECTIVO"
   },
   {
     nombreCliente: "Juan Pérez",
-    servicio: "Servicio de mascotas",
+    servicio: "Mascotas",
     descripcion: "Servicio de bañado a poddle (raza mediana)",
     direccion: "Av. Arequipa #520",
-    fecha: "23/02/2023",
+    fecha: "2024-05-05", 
     estado: "EFECTIVO"
   }
 ];

@@ -43,7 +43,7 @@ export default function Login() {
           apellido: apellido,
           telefono: telefono,
           email: correo,
-          password: password,
+          contrasena: password,
           direccion: direccion,
           distrito: distrito,
           provincia: ciudad

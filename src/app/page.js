@@ -36,12 +36,6 @@ export default function Login() {
           })
         });
   
-        console.log('Respuesta recibida:', response);
-  
-        // if (!response.ok) {
-        //   throw new Error(`HTTP error! status: ${response.status}`);
-        // }
-  
         const data = await response.json();
         console.log('Datos recibidos:', data);
   
@@ -49,6 +43,11 @@ export default function Login() {
           toast.success(data.mensaje, {
             position: "top-right"
           });
+          
+          localStorage.setItem('id_usuarioWORK', data.id);
+          localStorage.setItem('nombreWORK', data.nombre);
+          localStorage.setItem('apellidoWORK', data.apellido);
+          localStorage.setItem('emailWORK', data.email);
   
           setTimeout(() => {
             window.location.href = DOMAIN_FRONT + 'plataforma';
