@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './registroEspecialista.module.css';
 import '../estilos/globales.css';
-import SidebarEspecialista from '../components/SidebarEspecialista';
+import SidebarEspecialista from '../components/sidebarEspecialista';
 
 export default function RegisterSpecialist() {
   const [formData, setFormData] = useState({

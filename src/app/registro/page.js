@@ -50,7 +50,7 @@ export default function Login() {
         };
   
         try {
-          const response = await fetch(`${DOMAIN_BACK}?controller=users&action=registro`, {
+          const response = await fetch(`${DOMAIN_BACK}?controller=usuarios&action=registro`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -108,7 +108,9 @@ export default function Login() {
           <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
               <div className="wrap">
-                <div className="img" style={{ backgroundImage: 'url("/login/bg-1.jpg")' }}></div>
+                <div className="img">
+                  <img src="/logo_work.png" alt="logo" width={'100%'} height={'90%'}/>
+                </div>
                 <div className="login-wrap p-4 p-md-5">
                   <div className="">
                     <div className="text-center">

@@ -165,13 +165,15 @@ const Sidebar = () => {
       </Drawer>
       <nav className={styles.navbar} style={{marginBottom:'4em'}}>
         <div className="logo">
-          <img src="/logo_work.png" alt="logo" className={styles.logo}  width={'50%'}/>
+          <a href={DOMAIN_FRONT+'plataforma-especialista'}>
+           <img src="/logo_work.png" alt="logo" className={styles.logo}  width={'30%'}/>
+          </a>
         </div>
         <Button className={styles.clientButton}>
           <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  onClick={toggleDrawerP(true)} className={styles.clientText}>Especialista <FaChevronDown className={styles.downArrow} /></span>
           
         </Button>
-        <ul style={{listStyle:'none'}}>
+        <ul style={{listStyle:'none',marginTop:'15px'}}>
           <li style={{listStyle:'none'}}>
             <Button style={{fontSize:'25px',backgroundColor:'#fff',color:'#000'}} onClick={toggleDrawer(true)} className={styles.toggleButton}>
               {isOpen ? <FaTimes /> : <FaBars />}

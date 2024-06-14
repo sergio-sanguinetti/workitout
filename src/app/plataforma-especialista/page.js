@@ -61,7 +61,7 @@ export default function PlataformaEspecialista() {
   return (
     <>
       <SidebarEspecialista isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
-      <div className="content" style={{marginTop:'9rem', marginBottom:'9rem'}}>
+      <div className="content" style={{maxWidth:'700px',margin:'9rem auto'}}>
         <h3 className='color-primary text-center'><b>Empieza a ver las ofertas que hay para ti</b></h3>
         <div className="row justify-content-center mb-4">
           <div className="col-md-6">

@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Sidebar from '../components/sidebar';
-import './RegistroSolicitud.css';
+import Sidebar from '../../components/sidebar';
+import '../RegistroSolicitud.css';
 //import { useSession } from 'next-auth/react';
-import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../env';
+import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../../env';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -37,7 +37,9 @@ const ChangeMapView = ({ coords }) => {
   return null;
 };
 
-const RegistroSolicitud = () => {
+const RegistroSolicitud = ({params}) => {
+
+    const id_categoria = params.categoria;
   //const { data: session, status } = useSession();
 
   const [position, setPosition] = useState([51.505, -0.09]); // Ubicación inicial (Londres)
@@ -88,7 +90,7 @@ const RegistroSolicitud = () => {
   };
 
   const [formData, setFormData] = useState({
-    categoriaServicio: '',
+    categoriaServicio: id_categoria,
   });
 
   const [categorias, setCategorias] = useState([]);
@@ -105,6 +107,11 @@ const RegistroSolicitud = () => {
       .then(response => response.json())
       .then(data => setCategorias(data))
       .catch(error => console.error('Error al obtener categorías:', error));
+
+      fetch(DOMAIN_BACK+`?controller=servicios&action=traer_servicios&idCategoria=${id_categoria}`)
+            .then(response => response.json())
+            .then(data => setServicios(data))
+            .catch(error => console.error('Error al obtener servicios:', error));
   }, []);
 
   const handleChange = (e) => {

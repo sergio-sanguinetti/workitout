@@ -22,7 +22,7 @@ export default function Login() {
   
     if (regexCorreo.test(correo) && contraseña.length > 0) {
       try {
-        const url = `${DOMAIN_BACK}?controller=users&action=login`;
+        const url = `${DOMAIN_BACK}?controller=usuarios&action=login`;
         console.log('Enviando solicitud a:', url);
   
         const response = await fetch(url, {

@@ -8,12 +8,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Sidebar from '../components/sidebar';
 import './profile.css';
 
+{/* <img src="" alt="logo" class="img-fluid" style={{maxWidth:'50%',height:'auto'}}  /> */}
+
 export default function ProfilePage() {
   const [user, setUser] = useState({
     name: 'Nombre Usuario',
     surname: 'Apellido Usuario',
     email: 'usuario@correo.com',
-    profilePicture: 'path_to_profile_picture',
+    profilePicture: '/profile.png',
     rating: 4.8,
   });
   const [editMode, setEditMode] = useState(false);
@@ -27,7 +29,7 @@ export default function ProfilePage() {
     <>
       <ToastContainer />
       <Sidebar userName={user.name} userRating={user.rating} />
-      <section className="profile-section">
+      <section className="profile-section" style={{marginTop:'10rem', marginBottom:'4rem'}}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-6 text-center mb-5">
