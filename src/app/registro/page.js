@@ -50,7 +50,7 @@ export default function Login() {
         };
   
         try {
-          const response = await fetch(`${DOMAIN_BACK}?tabla=crear_usuario`, {
+          const response = await fetch(`${DOMAIN_BACK}?controller=users&action=registro`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
