@@ -6,8 +6,78 @@ import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
 //import { useSession } from 'next-auth/react';
 
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+// MAPA LEATFLET
+
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import axios from 'axios';
+
+// Configuración del icono del marcador
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+
+// Componente para mover el mapa a la nueva posición
+const ChangeMapView = ({ coords }) => {
+  const map = useMap();
+  map.setView(coords, map.getZoom());
+
+  return null;
+};
+
+
+
 const RegistroSolicitud = () => {
+
+  const [position, setPosition] = useState([51.505, -0.09]); // Ubicación inicial (Londres)
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${searchQuery}&format=json&limit=1`);
+      if (response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        setPosition([parseFloat(lat), parseFloat(lon)]);
+      } else {
+        alert('No se encontraron resultados');
+      }
+    } catch (error) {
+      console.error('Error al buscar la dirección:', error);
+    }
+  };
+
+
+  const handleMarkerDragEnd = (event) => {
+    const newPosition = event.target.getLatLng();
+    setPosition([newPosition.lat, newPosition.lng]);
+  };
+  
+
   //const { data: session, status } = useSession();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
 
   const [formData, setFormData] = useState({
     categoriaServicio: '',
@@ -96,15 +166,17 @@ const RegistroSolicitud = () => {
     <>
       <ToastContainer />
       <Sidebar />
-      <section className="profile-section">
+      <section className="profile-section" style={{marginTop:'8rem'}}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
               <div className="wrap">
                 <div className="profile-wrap p-4 p-md-5">
-                  <div className="col-md-6 text-center mb-5">
-                    <h3 className="form-title">Registro de Solicitud</h3>
-                  </div>
+                 
+                     <center>
+                       <h3 className="form-title"><b>Registro de Solicitud</b></h3>
+                    </center>
+                
                   <form onSubmit={handleSubmit}>
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }}>Seleccione la categoría de servicio</label>
@@ -154,7 +226,7 @@ const RegistroSolicitud = () => {
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <button type="button" className="btn btn-primary form-control">
+                      <button type="button" className="btn btn-primary form-control" onClick={handleClickOpen}>
                         Marcar Ubicación
                       </button>
                     </div>
@@ -188,6 +260,42 @@ const RegistroSolicitud = () => {
           </div>
         </div>
       </section>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Busca tu dirección en el mapa para poder localizarte"}
+        </DialogTitle>
+        <DialogContent>
+         <input
+           type="text"
+           className="form-control p-2"
+           value={searchQuery}
+           onChange={(e) => setSearchQuery(e.target.value)}
+           placeholder="Buscar dirección"
+         />
+         <button className="btn btn-primary mb-4 mt-2"onClick={handleSearch}>Buscar</button>
+         <MapContainer center={position} zoom={13} style={{ height: '500px', width: '100%',marginTop:'20px'}}>
+           <TileLayer
+             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+           />
+          <Marker position={position} draggable={true} eventHandlers={{ dragend: handleMarkerDragEnd }}>
+            <Popup>Ubicación buscada</Popup>
+           </Marker>
+           <ChangeMapView coords={position} />
+         </MapContainer>
+        </DialogContent>
+        <DialogActions>
+          {/* <Button onClick={handleClose}>Cerrar</Button> */}
+          <Button className='btn btn-primary' onClick={handleClose} autoFocus>
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
