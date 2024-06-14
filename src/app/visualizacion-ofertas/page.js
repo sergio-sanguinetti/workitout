@@ -1,12 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import Sidebar from '../components/sidebar';
-import './DetalleSolicitud.css';
+import SidebarEspecialista from '../components/sidebarEspecialista';
+import './DetalleOferta.css';
 
 const DetalleSolicitud = () => {
   const [solicitud] = useState({
     categoria: 'Lavanderia',
-    estado: 'Buscando a un prestador de servicios',
+    //estado: 'Buscando a un prestador de servicios',
     precio: 'PEN50',
     descripcion: 'Quiero que laven las frazadas de mi casa, son 5 en total',
     fechaHora: 'lun 17 junio, 13:00',
@@ -16,8 +16,8 @@ const DetalleSolicitud = () => {
 
   return (
     <>
-      <Sidebar />
-      <section className="profile-section"style={{marginTop:'2rem'}}>
+      <SidebarEspecialista/>
+      <section className="profile-section"style={{marginTop:'4rem'}}>
         <div className="container" style={{marginTop:'1rem', marginBottom:'4rem'}}>
         <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
@@ -30,9 +30,9 @@ const DetalleSolicitud = () => {
                     <div className="estado-solicitud">
                       <div className="estado-header">
                         <h5>{solicitud.categoria}</h5>
-                        <span className="estado-badge">{solicitud.estado}</span>
+                        {/* <span className="estado-badge">{solicitud.estado}</span> */}
                       </div>
-                      <button className="estado-button">Pasos a seguir</button>
+                      {/* <button className="estado-button">Pasos a seguir</button> */}
                     </div>
                     <div className="detalle-precio">
                       <span className="precio">{solicitud.precio}</span>
@@ -54,8 +54,8 @@ const DetalleSolicitud = () => {
                       <h6>Dirección</h6>
                       <p>{solicitud.direccion}</p>
                     </div>
-                    <a href='/modificar-solicitud-cliente'><button className="btn btn-primary form-control">Cambiar la solicitud</button></a>
-                    <a href='/valoracion-cliente'><button className="btn btn-primary form-control">Finalizar Solicitud</button></a>
+                    <a href='/visualizacion-solicitud-proceso-especialista'><button className="btn btn-primary form-control">Aceptar Precio</button></a>
+                    <a href='#'><button className="btn btn-primary form-control">Negociar Precio</button></a>
                   </div>
                 </div>
               </div>

@@ -47,9 +47,9 @@ export default function Inicio() {
     setFilteredServices(filtered);
   };
 
-  const handleClick = (serviceName) => {
+  /*const handleClick = (serviceName) => {
     alert(`You clicked on ${serviceName}`);
-  };
+  };*/
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

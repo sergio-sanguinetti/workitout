@@ -47,9 +47,9 @@ export default function PlataformaEspecialista() {
     setFilteredServices(filtered);
   };
 
-  const handleClick = (serviceName) => {
+  /*const handleClick = (serviceName) => {
     alert(`You clicked on ${serviceName}`);
-  };
+  };*/
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -77,6 +77,7 @@ export default function PlataformaEspecialista() {
         <div className="card-container" >
           {filteredServices.map(services => (
             <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
+              <a href='/visualizacion-ofertas'>
               <div className="card-header">
                 <h5 className="card-title">{services.name}</h5>
                 <p className="card-price">{services.price}</p>
@@ -84,6 +85,7 @@ export default function PlataformaEspecialista() {
                 <p className="card-footer">{services.location}</p>
                 <p className="card-footer">{services.date}</p>
               </div>
+              </a>
             </div>
           ))}
         </div>

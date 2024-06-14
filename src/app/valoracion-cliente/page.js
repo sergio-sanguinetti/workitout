@@ -29,8 +29,8 @@ const ValoracionCliente = () => {
   return (
     <>
       <ToastContainer />
-      {/* <Sidebar/> */}
-      <div className={styles.container}>
+      <Sidebar/>
+      <div className={styles.container} style={{marginTop: '4rem', marginBottom: '4rem'}}>
         <h1>¡GRACIAS POR USAR WORKITOUT!</h1>
         <h2>Ahora califica tu experiencia</h2>
         <div className={styles.imageContainer}>
@@ -51,9 +51,11 @@ const ValoracionCliente = () => {
           <label htmlFor="comment">Agrega un comentario acerca del servicio</label>
           <textarea id="comment" value={comment} onChange={handleCommentChange} />
         </div>
+        <a href='/plataforma'>
         <button className={styles.submitButton} onClick={handleSubmit}>
           Enviar Calificación
         </button>
+        </a>
       </div>
     </>
   );

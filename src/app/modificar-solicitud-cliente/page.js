@@ -88,9 +88,11 @@ const DetalleSolicitudEditable = () => {
                         onChange={handleChange}
                       />
                     </div>
+                    <a href='/visualizacion-solicitud-proceso-cliente'>
                     <button type="submit" className="form-control btn btn-primary rounded submit px-3">
                       Guardar cambios
                     </button>
+                    </a>
                   </form>
                 </div>
               </div>

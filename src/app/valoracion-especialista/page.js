@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { FaStar } from 'react-icons/fa';
 import styles from './valoracion-especialista.module.css';
+import SidebarEspecialista from '../components/sidebarEspecialista';
 
 export default function ValoracionEspecialista() {
   const [rating, setRating] = useState(0);
@@ -22,8 +23,9 @@ export default function ValoracionEspecialista() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{marginTop: '4rem', marginBottom: '4rem'}}>
       <ToastContainer />
+      <SidebarEspecialista/>
       <h1>¡GRACIAS POR USAR WORKITOUT!</h1>
       <h2>Ahora califica tu experiencia</h2>
       <div className={styles.clientInfo}>
@@ -65,7 +67,7 @@ export default function ValoracionEspecialista() {
           onChange={(e) => setComment(e.target.value)}
         />
       </div>
-      <button className={styles.submitButton} onClick={handleSubmit}>Enviar Calificación</button>
+      <a href='/plataforma-especialista'><button className={styles.submitButton} onClick={handleSubmit}>Enviar Calificación</button></a>
     </div>
   );
 }

@@ -93,6 +93,7 @@ const Page = () => {
           />
         </div>
         <div className="historial-list">
+          <a href='/visualizacion-solicitud-proceso-especialista'>
           {filteredServicios.map((servicio, index) => (
             <div key={index} className="historial-item">
               <h4>{servicio.servicio}</h4>
@@ -103,6 +104,7 @@ const Page = () => {
               <p>Estado: {servicio.estado}</p>
             </div>
           ))}
+          </a>
         </div>
       </div>
     </>

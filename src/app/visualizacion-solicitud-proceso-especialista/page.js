@@ -1,22 +1,22 @@
 'use client';
 import React, { useState } from 'react';
-import Sidebar from '../components/sidebar';
-import './DetalleSolicitud.css';
+import SidebarEspecialista from '../components/sidebarEspecialista';
+import './visualizacion-solicitudes-especialista.css';
 
 const DetalleSolicitud = () => {
   const [solicitud] = useState({
-    categoria: 'Lavanderia',
-    estado: 'Buscando a un prestador de servicios',
+    categoria: 'Servicio de mascotas',
+    cliente: 'Juan Pérez',
     precio: 'PEN50',
-    descripcion: 'Quiero que laven las frazadas de mi casa, son 5 en total',
-    fechaHora: 'lun 17 junio, 13:00',
+    descripcion: 'Servicio de bañado a poddle (raza mediana)',
+    fechaHora: '23/02/2023, 13:00',
     numeroSolicitud: '01',
-    direccion: 'Av. 12 de Octubre 602'
+    direccion: 'Av. Arequipa #520'
   });
 
   return (
     <>
-      <Sidebar />
+      <SidebarEspecialista />
       <section className="profile-section"style={{marginTop:'2rem'}}>
         <div className="container" style={{marginTop:'1rem', marginBottom:'4rem'}}>
         <div className="row justify-content-center">
@@ -30,13 +30,17 @@ const DetalleSolicitud = () => {
                     <div className="estado-solicitud">
                       <div className="estado-header">
                         <h5>{solicitud.categoria}</h5>
-                        <span className="estado-badge">{solicitud.estado}</span>
+                        {/* <span className="estado-badge">{solicitud.estado}</span> */}
                       </div>
-                      <button className="estado-button">Pasos a seguir</button>
+                      {/* <button className="estado-button">Pasos a seguir</button> */}
                     </div>
                     <div className="detalle-precio">
                       <span className="precio">{solicitud.precio}</span>
                       <span className="metodo-pago">Efectivo</span>
+                    </div>
+                    <div className="detalle-info">
+                      <h6>Cliente</h6>
+                      <p>{solicitud.cliente}</p>
                     </div>
                     <div className="detalle-info">
                       <h6>Descripción</h6>
@@ -54,8 +58,8 @@ const DetalleSolicitud = () => {
                       <h6>Dirección</h6>
                       <p>{solicitud.direccion}</p>
                     </div>
-                    <a href='/modificar-solicitud-cliente'><button className="btn btn-primary form-control">Cambiar la solicitud</button></a>
-                    <a href='/valoracion-cliente'><button className="btn btn-primary form-control">Finalizar Solicitud</button></a>
+                    <a href='https://wa.link/bc0rai'><button className="btn btn-primary form-control">Contactar Cliente</button></a>
+                    <a href='/valoracion-especialista'><button className="btn btn-primary form-control">Finalizar Solicitud</button></a>
                   </div>
                 </div>
               </div>
