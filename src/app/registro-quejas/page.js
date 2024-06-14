@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_BACK } from '../../../env';
+import Sidebar from '../components/sidebar';
+import '../estilos/globales.css';
+
+
+
 
 const RegisterComplaint = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +34,8 @@ const RegisterComplaint = () => {
   return (
     <>
       <ToastContainer />
-      <section className="ftco-section">
+      <Sidebar/>
+      <section className="ftco-section" style={{marginTop:'5rem'}}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-6 text-center mb-5">

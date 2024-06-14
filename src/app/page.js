@@ -38,9 +38,9 @@ export default function Login() {
   
         console.log('Respuesta recibida:', response);
   
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
   
         const data = await response.json();
         console.log('Datos recibidos:', data);
@@ -55,7 +55,7 @@ export default function Login() {
           }, 2000);
   
         } else {
-          toast.error(data.mensaje, {
+          toast.error(data.error, {
             position: "top-right"
           });
         }

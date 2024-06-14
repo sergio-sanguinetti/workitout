@@ -8,3 +8,14 @@
 .layout-pages{
     margin-top:10rem;
 }
+
+.marginLeft-rating {
+   margin-left: -50px;
+}
+
+@media (width <= 550px) {
+    .marginLeft-rating {
+        margin-left: 0px;
+    }
+  }
+  
