@@ -4,38 +4,34 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
+//import { useSession } from 'next-auth/react';
 
 const RegistroSolicitud = () => {
-  const [user] = useState({
-    name: 'Nombre Usuario',
-    rating: 4.8,
-  });
+  //const { data: session, status } = useSession();
 
   const [formData, setFormData] = useState({
     categoriaServicio: '',
-    Servicio: '',
-    descripcionServicio: '',
-    direccion: '',
-    fechaHora: '',
-    precio: ''
   });
 
   const [categorias, setCategorias] = useState([]);
   const [servicios, setServicios] = useState([]);
 
+  const [idServicio, setIdServicio] = useState('');
+  const [descripcionServicio, setDescripcionServicio] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [fechaHoraAtencion, setFechaHoraAtencion] = useState('');
+  const [precio, setPrecio] = useState('');
+
   useEffect(() => {
-    // Obtener categorías al cargar el componente
     fetch(`http://localhost:8080/api_workitout/obtenerCategorias.php?tabla=obtener_categorias`)
       .then(response => response.json())
       .then(data => setCategorias(data))
       .catch(error => console.error('Error al obtener categorías:', error));
   }, []);
 
- 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    // Si el campo cambiado es la categoría de servicio, obtener los servicios correspondientes
     if (e.target.name === 'categoriaServicio') {
       fetch(`http://localhost:8080/api_workitout/obtenerServicios.php?tabla=obtener_servicios&idCategoria=${e.target.value}`)
         .then(response => response.json())
@@ -44,13 +40,17 @@ const RegistroSolicitud = () => {
     }
   };
 
+  const handleChangeServicio = (e) => {
+    setIdServicio(e.target.value);
+  };
+
   const validateForm = () => {
-    const { categoriaServicio, Servicio, descripcionServicio, direccion, fechaHora, precio } = formData;
-    if (!categoriaServicio || !Servicio || !descripcionServicio || !direccion || !fechaHora || !precio) {
+    console.log(descripcionServicio, direccion, fechaHoraAtencion, precio, idServicio);
+    if (!idServicio || !descripcionServicio || !direccion || !fechaHoraAtencion || !precio) {
       toast.error('Todos los campos son obligatorios');
       return false;
     }
-    if (new Date(fechaHora) <= new Date()) {
+    if (new Date(fechaHoraAtencion) <= new Date()) {
       toast.error('La fecha y hora deben ser futuras');
       return false;
     }
@@ -61,29 +61,50 @@ const RegistroSolicitud = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      toast.success('Solicitud registrada correctamente');
+      try {
+        const response = await fetch('http://localhost:8080/api_workitout/registroSolicitud.php?tabla=crearSolicitud', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            //user_id: session?.user?.id,
+            idServicio: idServicio,
+            descripcionServicio: descripcionServicio,
+            direccion: direccion,
+            fechaHoraAtencion: fechaHoraAtencion,
+            precio: precio
+          })
+        });
+        const data = await response.json();
+        if (data.estado === 1) {
+          toast.success(data.mensaje);
+        } else {
+          toast.error(data.mensaje);
+        }
+      } catch (error) {
+        console.error('Error al registrar la solicitud:', error);
+        toast.error('Error al registrar la solicitud');
+      }
     }
   };
 
   return (
     <>
       <ToastContainer />
-      <Sidebar userName={user.name} userRating={user.rating} />
+      <Sidebar />
       <section className="profile-section">
         <div className="container">
-          <div className="row justify-content-center">
-            
-          </div>
           <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
               <div className="wrap">
                 <div className="profile-wrap p-4 p-md-5">
-                <div className="col-md-6 text-center mb-5">
-                  <h3 className="form-title">Registro de Solicitud</h3>
-                </div>
+                  <div className="col-md-6 text-center mb-5">
+                    <h3 className="form-title">Registro de Solicitud</h3>
+                  </div>
                   <form onSubmit={handleSubmit}>
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }}>Seleccione la categoría de servicio</label>
@@ -100,12 +121,12 @@ const RegistroSolicitud = () => {
                       </select>
                     </div>
                     <div className="form-group mt-3">
-                    <label style={{ color: '#000' }}>Seleccione el servicio</label>
+                      <label style={{ color: '#000' }}>Seleccione el servicio</label>
                       <select
                         className="form-control p-2"
-                        name="Servicio"
-                        value={formData.Servicio}
-                        onChange={handleChange}
+                        name="idServicio"
+                        value={idServicio}
+                        onChange={handleChangeServicio}
                       >
                         <option value="">Seleccione un servicio</option>
                         {servicios.map(servicio => (
@@ -118,8 +139,8 @@ const RegistroSolicitud = () => {
                       <textarea
                         className="form-control p-2"
                         name="descripcionServicio"
-                        value={formData.descripcionServicio}
-                        onChange={handleChange}
+                        value={descripcionServicio}
+                        onChange={(e) => setDescripcionServicio(e.target.value)}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -128,8 +149,8 @@ const RegistroSolicitud = () => {
                         type="text"
                         className="form-control p-2"
                         name="direccion"
-                        value={formData.direccion}
-                        onChange={handleChange}
+                        value={direccion}
+                        onChange={(e) => setDireccion(e.target.value)}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -142,9 +163,9 @@ const RegistroSolicitud = () => {
                       <input
                         type="datetime-local"
                         className="form-control p-2"
-                        name="fechaHora"
-                        value={formData.fechaHora}
-                        onChange={handleChange}
+                        name="fechaHoraAtencion"
+                        value={fechaHoraAtencion}
+                        onChange={(e) => setFechaHoraAtencion(e.target.value)}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -153,8 +174,8 @@ const RegistroSolicitud = () => {
                         type="text"
                         className="form-control p-2"
                         name="precio"
-                        value={formData.precio}
-                        onChange={handleChange}
+                        value={precio}
+                        onChange={(e) => setPrecio(e.target.value)}
                       />
                     </div>
                     <button type="submit" className="form-control btn btn-primary rounded submit px-3">
@@ -172,5 +193,3 @@ const RegistroSolicitud = () => {
 };
 
 export default RegistroSolicitud;
-
-
