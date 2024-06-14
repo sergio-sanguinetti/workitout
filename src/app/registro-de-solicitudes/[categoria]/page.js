@@ -116,9 +116,9 @@ const RegistroSolicitud = ({ params }) => {
         if (data.estado === 1) {
           toast.success(data.mensaje);
           setTimeout(() => {
-            if (typeof window !== 'undefined') {
-              window.location.href = `${DOMAIN_FRONT}plataforma`;
-            }
+            // if (typeof window !== 'undefined') {
+            //   window.location.href = `${DOMAIN_FRONT}plataforma`;
+            // }
           }, 2000);
         } else {
           toast.error(data.mensaje);
