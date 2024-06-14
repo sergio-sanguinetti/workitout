@@ -84,7 +84,7 @@ const Sidebar = () => {
            <ListItemText primary="Registro Quejas" />
          </ListItem>
        </Link>
-       <Link href="#">
+       <Link href="/visualizacion-solicitudes">
          <ListItem className="item-list">
            <ListItemIcon>
              <FaQuestionCircle />
@@ -132,7 +132,7 @@ const Sidebar = () => {
       onKeyDown={toggleDrawerP(false)}
     >
       <List>
-       <Link href="/plataforma">
+       <Link href="/plataforma-especialista">
          <ListItem className="item-list">
            <ListItemIcon>
              <PersonIcon />
@@ -140,7 +140,7 @@ const Sidebar = () => {
            <ListItemText primary="Especialista" />
          </ListItem>
        </Link>
-       <Link href="/registro-de-especialista">
+       <Link href="/plataforma">
          <ListItem className="item-list">
            <ListItemIcon>
              <Person4Icon />
@@ -179,7 +179,7 @@ const Sidebar = () => {
       </nav>
       <footer className={styles.footer}>
         <a href='/plataforma'><button  className={styles.footerButton}>Servicios</button></a>
-        <button className={styles.footerButton}>Mis solicitudes</button>
+        <a href='/visualizacion-solicitudes'><button className={styles.footerButton}>Mis solicitudes</button></a>
       </footer>
     </div>
   );

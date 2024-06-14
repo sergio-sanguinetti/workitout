@@ -97,7 +97,7 @@ const RegistroSolicitud = () => {
       <ToastContainer />
       <Sidebar />
       <section className="profile-section">
-        <div className="container">
+        <div className="container" style={{marginTop:'4rem'}}>
           <div className="row justify-content-center">
             <div className="col-md-7 col-lg-5">
               <div className="wrap">

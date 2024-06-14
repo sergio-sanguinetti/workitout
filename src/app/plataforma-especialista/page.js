@@ -4,23 +4,39 @@ import React, { useState, useEffect } from 'react';
 import '../boostrap.css';
 import SidebarEspecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
+import './platform-especialista.css';
 
 export default function PlataformaEspecialista() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [services, setServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState(services);
+  //const [services, setServices] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    // Commented out backend fetch since it's not implemented yet
-    // fetch('http://localhost:8080/api_workitout/obtenerServiciosEspecialista.php?tabla=obtener_servicios')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setServices(data);
-    //     setFilteredServices(data);
-    //   })
-    //   .catch(error => console.error('Error fetching services:', error));
-  }, []);
+  const services = [
+    {
+      name: "Remodelación y construcción",
+      price: "S/1000.00",
+      description: "Renovación de departamentos y casas",
+      location: "Av. Mariano melgar #304",
+      date: "Hoy"
+    },
+    {
+      name: "Limpieza",
+      price: "S/80.00",
+      description: "Lavado de carro",
+      location: "Jose Galves #520",
+      date: "Hoy"
+    },
+    {
+      name: "Asistencia doméstica",
+      price: "1500.00",
+      description: "Servicio de niñera",
+      location: "Av. 12 de octubre #601 alto Selva Alegre",
+      date: "Mañana"
+    }
+    // Agrega más servicios según sea necesario
+  ];
+
+  const [filteredServices, setFilteredServices] = useState(services);
 
   const handleSearch = (event) => {
     const term = event.target.value.toLowerCase();
@@ -45,27 +61,28 @@ export default function PlataformaEspecialista() {
   return (
     <>
       <SidebarEspecialista isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
-      <div className="content">
-        <h3 className='color-primary text-center'><b>Empieza a ver tus solicitudes</b></h3>
+      <div className="content" style={{marginTop:'9rem', marginBottom:'9rem'}}>
+        <h3 className='color-primary text-center'><b>Empieza a ver las ofertas que hay para ti</b></h3>
         <div className="row justify-content-center mb-4">
           <div className="col-md-6">
             <input
               type="text"
-              placeholder="¿Qué solicitud estás buscando?"
+              placeholder="¿Qué estás buscando?"
               value={searchTerm}
               onChange={handleSearch}
               className="form-control"
             />
           </div>
         </div>
-        <div className="row">
-          {filteredServices.map(service => (
-            <div key={service.idServicio} className="col-md-4 mb-3">
-              <div className="card" onClick={() => handleClick(service.nombreServicio)}>
-                <div className="card-body">
-                  <h5 className="card-title">{service.nombreServicio}</h5>
-                  <p className="card-text">{service.count} solicitudes disponibles</p>
-                </div>
+        <div className="card-container" >
+          {filteredServices.map(services => (
+            <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
+              <div className="card-header">
+                <h5 className="card-title">{services.name}</h5>
+                <p className="card-price">{services.price}</p>
+                <p className="card-body">{services.description}</p>
+                <p className="card-footer">{services.location}</p>
+                <p className="card-footer">{services.date}</p>
               </div>
             </div>
           ))}

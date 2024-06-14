@@ -15,7 +15,8 @@ import BuildIcon from '@mui/icons-material/Build';
 import styles from './sidebar.module.css';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-
+import PersonIcon from '@mui/icons-material/Person';
+import Person4Icon from '@mui/icons-material/Person4';
 
 import './listaSidebar.css'
 import '../estilos/globales.css'
@@ -30,7 +31,17 @@ const Sidebar = () => {
     }
     setIsOpen(open);
   };
-// style="max-width: 50%; height: auto;"
+
+  const [isOpenP, setIsOpenP] = useState(false);
+
+  const toggleDrawerP = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setIsOpenP(open);
+  };
+
+
   const list = () => (
     <Box
       sx={{ width: 300 }}
@@ -115,17 +126,49 @@ const Sidebar = () => {
     </Box>
   );
 
+  const listP = () => (
+    <Box
+      sx={{ width: '100%' }}
+      role="presentation"
+      onClick={toggleDrawerP(false)}
+      onKeyDown={toggleDrawerP(false)}
+    >
+      <List>
+       <Link href="/plataforma-especialista">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <PersonIcon />
+           </ListItemIcon>
+           <ListItemText primary="Especialista" />
+         </ListItem>
+       </Link>
+       <Link href="/plataforma">
+         <ListItem className="item-list">
+           <ListItemIcon>
+             <Person4Icon />
+           </ListItemIcon>
+           <ListItemText primary="Cliente" />
+         </ListItem>
+       </Link>
+     </List>
+    </Box>
+  );
+
+
   return (
     <div>
       <Drawer anchor={'left'} open={isOpen} onClose={toggleDrawer(false)}>
         {list()}
+      </Drawer>
+      <Drawer anchor={'top'} open={isOpenP} onClose={toggleDrawerP(false)}>
+        {listP()}
       </Drawer>
       <nav className={styles.navbar} style={{marginBottom:'4em'}}>
         <div className="logo">
           <img src="/logo_work.png" alt="logo" className={styles.logo}  width={'50%'}/>
         </div>
         <Button className={styles.clientButton}>
-          <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  className={styles.clientText}>Especialista <FaChevronDown className={styles.downArrow} /></span>
+          <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  onClick={toggleDrawerP(true)} className={styles.clientText}>Especialista <FaChevronDown className={styles.downArrow} /></span>
           
         </Button>
         <ul style={{listStyle:'none'}}>

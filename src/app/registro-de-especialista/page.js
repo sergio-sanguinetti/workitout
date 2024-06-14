@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './registroEspecialista.module.css';
 import '../estilos/globales.css';
-import Sidebar from '../components/sidebar';
+import SidebarEspecialista from '../components/SidebarEspecialista';
 
 export default function RegisterSpecialist() {
   const [formData, setFormData] = useState({
@@ -47,9 +47,9 @@ export default function RegisterSpecialist() {
 
   return (
     <>
-       <Sidebar />
+       <SidebarEspecialista/>
       <ToastContainer />
-      <div className="container content layout-pages" style={{maxWidth:'700px',marginTop:'10rem'}}>
+      <div className="container content layout-pages" style={{maxWidth:'700px',marginTop:'10rem', marginBottom:'4rem'}}>
         <h2>Solicitud de Registro Especialista</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

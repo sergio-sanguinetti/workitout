@@ -46,7 +46,7 @@ export default function Inicio() {
   return (
     <>
       <Sidebar isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
-      <div className="content layout-pages">
+      <div className="content layout-pages" style={{marginBottom:'4rem'}}>
           
         <h3 className='color-primary text-center'><b>Empieza a solicitar tus servicios</b></h3>
         <div className="row justify-content-center mb-4">
