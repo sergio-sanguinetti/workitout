@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './valoracion-cliente.module.css';
+import Sidebar from '../components/sidebar';
 
 const ValoracionCliente = () => {
   const [rating, setRating] = useState(0);
@@ -28,6 +29,7 @@ const ValoracionCliente = () => {
   return (
     <>
       <ToastContainer />
+      {/* <Sidebar/> */}
       <div className={styles.container}>
         <h1>¡GRACIAS POR USAR WORKITOUT!</h1>
         <h2>Ahora califica tu experiencia</h2>

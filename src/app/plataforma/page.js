@@ -63,12 +63,14 @@ export default function Inicio() {
         <div className="row">
           {filteredServices.map(service => (
             <div key={service.idCategoria} className="col-md-4 mb-3">
-            <div className="card" onClick={() => handleClick(service.nombreCategoria)}>
-              <div className="card-body">
-                <h5 className="card-title">{service.nombreCategoria}</h5>
-                <p className="card-text">{service.count} encuentra especialistas</p>
+              <a href='/registro-de-solicitudes'>
+              <div className="card" >
+                <div className="card-body">
+                  <h5 className="card-title">{service.nombreCategoria}</h5>
+                  <p className="card-text">{service.count} encuentra especialistas</p>
                 </div>
               </div>
+              </a>
             </div>
           ))}
         </div>

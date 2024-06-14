@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import '../boostrap.css';
-import Sidebar from '../components/sidebar';
+import SidebarEspecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
 
 export default function PlataformaEspecialista() {
@@ -44,7 +44,7 @@ export default function PlataformaEspecialista() {
 
   return (
     <>
-      <Sidebar isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
+      <SidebarEspecialista isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
       <div className="content">
         <h3 className='color-primary text-center'><b>Empieza a ver tus solicitudes</b></h3>
         <div className="row justify-content-center mb-4">

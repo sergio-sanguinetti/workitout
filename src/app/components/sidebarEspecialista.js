@@ -52,20 +52,20 @@ const Sidebar = () => {
      </div>
 
       <List>
-       <Link href="/plataforma">
+       <Link href="/plataforma-especialista">
          <ListItem className="item-list">
            <ListItemIcon>
              <FaHome />
            </ListItemIcon>
-           <ListItemText primary="Mis servicios" />
+           <ListItemText primary="Lista de Ofertas" />
          </ListItem>
        </Link>
-       <Link href="/registro-de-solicitudes">
+       <Link href="/registro-de-especialista">
          <ListItem className="item-list">
            <ListItemIcon>
-             <FaInfoCircle />
+             <FaHome />
            </ListItemIcon>
-           <ListItemText primary="Registro de Solicitudes" />
+           <ListItemText primary="Registro de Especialista" />
          </ListItem>
        </Link>
        <Link href="/registro-quejas">
@@ -125,7 +125,7 @@ const Sidebar = () => {
           <img src="/logo_work.png" alt="logo" className={styles.logo}  width={'50%'}/>
         </div>
         <Button className={styles.clientButton}>
-          <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  className={styles.clientText}>Cliente <FaChevronDown className={styles.downArrow} /></span>
+          <span style={{fontSize:'15px',backgroundColor:'#fff',color:'#000',borderRadius:'20px',padding:'10px 20px'}}  className={styles.clientText}>Especialista <FaChevronDown className={styles.downArrow} /></span>
           
         </Button>
         <ul style={{listStyle:'none'}}>
@@ -137,7 +137,7 @@ const Sidebar = () => {
         </ul>
       </nav>
       <footer className={styles.footer}>
-        <a href='/plataforma'><button  className={styles.footerButton}>Servicios</button></a>
+        <a href='/plataforma'><button  className={styles.footerButton}>Ofertas</button></a>
         <button className={styles.footerButton}>Mis solicitudes</button>
       </footer>
     </div>
