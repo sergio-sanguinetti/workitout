@@ -4,7 +4,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
-// import { useSession } from 'next-auth/react';
 import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../env';
 
 import Button from '@mui/material/Button';
@@ -36,8 +35,6 @@ const ChangeMapView = ({ coords }) => {
 };
 
 const RegistroSolicitud = () => {
-  // const { data: session, status } = useSession();
-
   const [position, setPosition] = useState([51.505, -0.09]); // Ubicación inicial (Londres)
   const [searchQuery, setSearchQuery] = useState('');
 

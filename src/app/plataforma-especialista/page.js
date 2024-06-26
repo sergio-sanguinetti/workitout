@@ -73,22 +73,16 @@ export default function PlataformaEspecialista() {
             />
           </div>
         </div>
-<<<<<<< Updated upstream
         <div className="card-container" >
           {filteredServices.map(services => (
             <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
               <a href='/visualizacion-ofertas'>
-=======
-        <div className="card-container">
-          {filteredServices.map(service => (
-            <div key={service.name} className="card" onClick={() => handleClick(service.name)} style={{ marginTop: "1rem" }}>
->>>>>>> Stashed changes
               <div className="card-header">
-                <h5 className="card-title">{service.name}</h5>
-                <p className="card-price">{service.price}</p>
-                <p className="card-body">{service.description}</p>
-                <p className="card-footer">{service.location}</p>
-                <p className="card-footer">{service.date}</p>
+                <h5 className="card-title">{services.name}</h5>
+                <p className="card-price">{services.price}</p>
+                <p className="card-body">{services.description}</p>
+                <p className="card-footer">{services.location}</p>
+                <p className="card-footer">{services.date}</p>
               </div>
               </a>
             </div>
