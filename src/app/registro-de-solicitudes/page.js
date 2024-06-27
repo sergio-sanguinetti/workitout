@@ -142,6 +142,7 @@ const RegistroSolicitud = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+   
       try {
         const response = await fetch(`${DOMAIN_BACK}?controller=solicitudes&action=crear_solicitud`, {
           method: 'POST',
@@ -155,11 +156,12 @@ const RegistroSolicitud = () => {
             descripcionServicio: descripcionServicio,
             direccion: direccion,
             lat_long: JSON.stringify(position),
-            fechaHoraAtencion: fechaHoraAtencion,
+            fechaHoraSolicitud: fechaHoraAtencion,
             precio: precio
           })
         });
         const data = await response.json();
+        console.log(data);
         if (data.estado === 1) {
           toast.success(data.mensaje);
           setTimeout(() => {

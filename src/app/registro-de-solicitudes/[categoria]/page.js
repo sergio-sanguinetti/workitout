@@ -110,7 +110,7 @@ const RegistroSolicitud = ({ params }) => {
             descripcionServicio,
             direccion,
             lat_long: JSON.stringify(position),
-            fechaHoraAtencion,
+            fechaHoraSolicitud:fechaHoraAtencion,
             precio,
           }),
         });

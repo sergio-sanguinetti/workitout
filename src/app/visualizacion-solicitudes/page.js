@@ -1,42 +1,39 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../boostrap.css';
 import Sidebar from '../components/sidebar';
 import '../estilos/globales.css';
 //import './visualizacion-solicitudes.css';
 
-const services = [
-  {
-    name: "Remodelación y construcción",
-    price: "S/1000.00",
-    description: "Renovación de departamentos y casas",
-    location: "Av. Mariano melgar #304",
-    date: "Hoy",
-    state: "En proceso"
-  },
-  {
-    name: "Limpieza",
-    price: "S/80.00",
-    description: "Lavado de carro",
-    location: "Jose Galves #520",
-    date: "Hoy",
-    state: "Cancelado"
-  },
-  {
-    name: "Asistencia doméstica",
-    price: "1500.00",
-    description: "Servicio de niñera",
-    location: "Av. 12 de octubre #601 alto Selva Alegre",
-    date: "Mañana",
-    state: "Aceptada"
-  }
-  // Agrega más servicios según sea necesario
-];
+import { DOMAIN_FRONT,DOMAIN_BACK} from '../../../env';
+
+
+
 
 export default function Inicio() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredServices, setFilteredServices] = useState(services);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+
+   // TRAER LAS SOLICITUDES
+   const id_usuario = localStorage.getItem('id_usuarioWORK');
+ 
+ useEffect(() => {
+  // Fetch categories from the backend
+  fetch(DOMAIN_BACK+'?controller=solicitudes&action=traer_solicitudes&idCliente='+id_usuario)
+    .then(response => response.json())
+    .then(data => {
+      setFilteredServices(data)
+    })
+    .catch(error => console.error('Error al traer solicitud:', error));
+
+}, []);
+
+
+
+console.log(filteredServices);
+
 
   const handleSearch = (event) => {
     const term = event.target.value.toLowerCase();
@@ -76,15 +73,15 @@ export default function Inicio() {
         </div>
         <div className="card-container" >
           {filteredServices.map(service => (
-            <div key={service.name} className="card" onClick={() => handleClick(service.name)} style={{marginTop:"1rem"}}>
-              <a href='/visualizacion-solicitud-proceso-cliente'>
+            <div key={service.nombreServicio} className="card" onClick={() => handleClick(service.name)} style={{marginTop:"1rem"}}>
+              <a href={'/visualizacion-solicitud-proceso-cliente/'+service.idSolicitud}>
               <div className="card-header">
-                <h5 className="card-title">{service.name}</h5>
-                <p className="card-price">{service.price}</p>
-                <p className="card-body">{service.description}</p>
-                <p className="card-footer">{service.location}</p>
-                <p className="card-footer">{service.date}</p>
-                <p className="card-footer">{service.state}</p>
+                <h5 className="card-title">{service.nombreServicio}</h5>
+                <p className="card-price">S/.{service.precio}</p>
+                <p className="card-body">{service.descripcion}</p>
+                <p className="card-footer">{service.ubicacion}</p>
+                <p className="card-footer">{service.fechaHoraSolicitud}</p>
+                <p className="card-footer">{service.estado}</p>
               </div>
               </a>
             </div>
