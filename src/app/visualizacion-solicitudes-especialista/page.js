@@ -40,7 +40,7 @@ const Page = () => {
         })
         .catch(error => console.error('Error al traer solicitud:', error));
       }
-    }, []);
+    }, [id_usuario]);
 
 
 

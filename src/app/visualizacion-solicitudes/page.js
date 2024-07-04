@@ -41,7 +41,7 @@ export default function Inicio() {
     })
     .catch(error => console.error('Error al traer solicitud:', error));
   }
-}, []);
+}, [id_usuario]);
 
 
 
