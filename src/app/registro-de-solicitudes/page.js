@@ -7,7 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
 import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../env';
-import { useIsClient } from '../hooks/useIsClient';
+import useIsClient from '../../hooks/useIsCLient';
+
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
