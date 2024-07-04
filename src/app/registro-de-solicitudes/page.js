@@ -8,6 +8,7 @@ import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
 import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../env';
 import { useIsClient } from '../hooks/useIsClient';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
