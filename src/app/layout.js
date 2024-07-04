@@ -3,7 +3,6 @@ import './boostrap.css';
 import './globals.css';
 // Importaciones necesarias
 import { Inter } from "next/font/google";
-import Sidebar from "./components/sidebar";
 import { Providers } from "./Providers";
 
 // Configuración de la fuente Inter

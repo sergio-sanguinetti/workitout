@@ -93,7 +93,20 @@ const RegistroSolicitud = ({ params }) => {
     return true;
   };
 
-  const id_usuario = localStorage.getItem('id_usuarioWORK');
+    
+  const [id_usuario, setIdUsuario] = useState(0);
+  const [especialista, setEspecialista] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const id_usuario = localStorage.getItem('id_usuarioWORK');
+      const especialista = localStorage.getItem('especialista');
+
+      setIdUsuario(id_usuario);
+      setEspecialista(especialista);
+    }
+  }, [id_usuario]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

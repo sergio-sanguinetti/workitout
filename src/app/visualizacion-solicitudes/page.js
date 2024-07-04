@@ -17,22 +17,34 @@ export default function Inicio() {
 
 
    // TRAER LAS SOLICITUDES
-   const id_usuario = localStorage.getItem('id_usuarioWORK');
+   const [id_usuario, setIdUsuario] = useState(0);
+   const [especialista, setEspecialista] = useState(0);
+ 
+   useEffect(() => {
+     if (typeof window !== 'undefined') {
+       const id_usuario = localStorage.getItem('id_usuarioWORK');
+       const especialista = localStorage.getItem('especialista');
+ 
+       setIdUsuario(id_usuario);
+       setEspecialista(especialista);
+     }
+   }, [id_usuario]);
+ 
  
  useEffect(() => {
   // Fetch categories from the backend
+  if(id_usuario != 0){
   fetch(DOMAIN_BACK+'?controller=solicitudes&action=traer_solicitudes&idCliente='+id_usuario)
     .then(response => response.json())
     .then(data => {
       setFilteredServices(data)
     })
     .catch(error => console.error('Error al traer solicitud:', error));
-
+  }
 }, []);
 
 
 
-console.log(filteredServices);
 
 
   const handleSearch = (event) => {
@@ -81,7 +93,21 @@ console.log(filteredServices);
                 <p className="card-body">{service.descripcion}</p>
                 <p className="card-footer">{service.ubicacion}</p>
                 <p className="card-footer">{service.fechaHoraSolicitud}</p>
-                <p className="card-footer">{service.estado}</p>
+                {service.estado == 1 && (
+                   <p className="card-footer alert alert-primary">EN NEGOCIACIÓN</p>
+                )}
+                
+                {service.estado == 2 && (
+                   <p className="card-footer alert alert-success">EN PROCESO</p>
+                )}
+
+                {service.estado == 3 && (
+                   <p className="card-footer alert alert-secondary">TERMINADA</p>
+                )}
+                {service.estado == 4 && (
+                   <p className="card-footer alert alert-darger">CANCELADA</p>
+                )}
+         
               </div>
               </a>
             </div>

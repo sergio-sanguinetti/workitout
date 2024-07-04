@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Link from 'next/link';
 import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBriefcase, FaQuestionCircle, FaEnvelope, FaChevronDown } from 'react-icons/fa';
 import Box from '@mui/material/Box';
@@ -20,9 +20,57 @@ import Person4Icon from '@mui/icons-material/Person4';
 
 import './listaSidebar.css'
 import '../estilos/globales.css'
-import { DOMAIN_FRONT } from '../../../env';
+import { DOMAIN_FRONT,DOMAIN_BACK } from '../../../env';
 
 const Sidebar = () => {
+
+  
+  const [id_usuario, setIdUsuario] = useState(0);
+  const [especialista, setEspecialista] = useState(0);
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Asegúrate de que el código solo se ejecuta en el cliente
+      const id_usuario = localStorage.getItem('id_usuarioWORK');
+      const nombreWORK = localStorage.getItem('nombreWORK');
+      const apellidoWORK = localStorage.getItem('apellidoWORK');
+      const especialista = localStorage.getItem('especialista');
+      setNombre(nombreWORK);
+      setApellido(apellidoWORK);
+      setIdUsuario(id_usuario);
+      setEspecialista(especialista);
+    }
+  }, []);
+
+
+
+  // OBTENER PROMEDIO DE CALIFICACIONES
+
+
+     const [promedios, setPromedios] = useState([])
+ 
+     useEffect(() => {
+      // Fetch categories from the backend
+      fetch(DOMAIN_BACK+'?controller=valoraciones&action=traer_calificaciones&idEspecialista='+id_usuario)
+        .then(response => response.json())
+        .then(data => {
+          setPromedios(data)
+            // Filtrar datos con puntuacionCliente definida
+                const puntuaciones = data.map(item => item.puntuacionEspecialista).filter(puntuacion => puntuacion !== undefined && puntuacion !== null);
+              
+                // Calcular el promedio
+                const total = puntuaciones.reduce((acc, curr) => acc + curr, 0);
+                const promedio = total / puntuaciones.length;
+              
+                setPromedios(promedio)
+        })
+        .catch(error => console.error('Error al traer solicitud:', error));
+    
+    }, []);
+
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -42,6 +90,8 @@ const Sidebar = () => {
   };
 
 
+
+
   const list = () => (
     <Box
       sx={{ width: 300 }}
@@ -52,11 +102,11 @@ const Sidebar = () => {
     <div class="row align-items-center text-center mt-3">
        <div class="col-md-5">
          <img src="/profile.png" alt="logo" class="img-fluid" style={{maxWidth:'50%',height:'auto'}}  />
-         <h6>Nombre Apellido</h6>
+         <p>{nombre} {apellido}</p>
        </div>
        <div class="col-md-7 marginLeft-rating">
          <Stack spacing={1} justifyContent="center" alignItems="center">
-           <Rating name="size-medium" readOnly precision={0.5} defaultValue={5} />
+           <Rating name="size-medium" readOnly precision={0.5} defaultValue={promedios} />
   
          </Stack>
        </div>
@@ -71,14 +121,16 @@ const Sidebar = () => {
            <ListItemText primary="Lista de Ofertas" />
          </ListItem>
        </Link>
-       <Link href="/registro-de-especialista">
-         <ListItem className="item-list">
-           <ListItemIcon>
-             <FaHome />
-           </ListItemIcon>
-           <ListItemText primary="Registro de Especialista" />
-         </ListItem>
-       </Link>
+       {especialista == '0' && (
+          <Link href="/registro-de-especialista">
+          <ListItem className="item-list">
+            <ListItemIcon>
+              <FaHome />
+            </ListItemIcon>
+            <ListItemText primary="Registro de Especialista" />
+          </ListItem>
+         </Link>
+       )}
        <Link href="/registro-quejas">
          <ListItem className="item-list">
            <ListItemIcon>
@@ -87,7 +139,7 @@ const Sidebar = () => {
            <ListItemText primary="Registro Quejas" />
          </ListItem>
        </Link>
-       <Link href="#">
+       <Link href="visualizacion-solicitudes-especialista">
          <ListItem className="item-list">
            <ListItemIcon>
              <FaQuestionCircle />

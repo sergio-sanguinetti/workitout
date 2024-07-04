@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../boostrap.css';
 import SidebarEspecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
 import './platform-especialista.css';
+import { DOMAIN_BACK } from '../../../env';
 
 export default function PlataformaEspecialista() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,16 +36,74 @@ export default function PlataformaEspecialista() {
     // Agrega más servicios según sea necesario
   ];
 
-  const [filteredServices, setFilteredServices] = useState(services);
+  const [filteredServices, setFilteredServices] = useState([]);
 
-  const handleSearch = (event) => {
-    const term = event.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = services.filter(service =>
-      service.name.toLowerCase().includes(term)
-    );
-    setFilteredServices(filtered);
-  };
+
+
+       const filtrarServiciosCorrectos = (data) => {
+         const filteredData = data.filter(item => {
+           const isEstadoEqualToOne = item.estado === "1";
+           const isFechaHoraSolicitudVigente = new Date(item.fechaHoraSolicitud) > new Date();
+           return isEstadoEqualToOne && isFechaHoraSolicitudVigente;
+         });
+       
+         return filteredData;
+       };
+
+
+
+      // TRAER LAS SOLICITUDES
+        
+     
+      useEffect(() => {
+       // Fetch categories from the backend
+       fetch(DOMAIN_BACK+'?controller=solicitudes&action=traer_solicitudes')
+         .then(response => response.json())
+         .then(data => {
+             
+           const serviciosCorrectos = filtrarServiciosCorrectos(data);
+          setFilteredServices(serviciosCorrectos)
+         })
+         .catch(error => console.error('Error al traer solicitud:', error));
+     
+     }, []);
+ 
+
+
+
+
+ 
+
+     const handleSearch = (event) => {
+      console.log('Event:', event);
+      if (!event || !event.target || typeof event.target.value !== 'string') {
+        console.error('Digite un servicio');
+        return;
+      }
+    
+      const term = event.target.value.toLowerCase();
+      console.log('Search Term:', term);
+
+
+    
+      if (!Array.isArray(filteredServices)) {
+        console.error('No hay servicios en el arreglo');
+        return;
+      }
+    
+      const filtered = filteredServices.filter(service => {
+        if (!service || !service.nombreServicio || typeof service.nombreServicio !== 'string') {
+          console.error('Invalido', service);
+          return false;
+        }
+        return service.nombreServicio.toLowerCase().includes(term);
+      });
+    
+      console.log('Filtered Services:', filtered);
+      setFilteredServices(filtered);
+    };
+    
+  
 
   /*const handleClick = (serviceName) => {
     alert(`You clicked on ${serviceName}`);
@@ -67,7 +126,6 @@ export default function PlataformaEspecialista() {
             <input
               type="text"
               placeholder="¿Qué estás buscando?"
-              value={searchTerm}
               onChange={handleSearch}
               className="form-control"
             />
@@ -76,13 +134,13 @@ export default function PlataformaEspecialista() {
         <div className="card-container" >
           {filteredServices.map(services => (
             <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
-              <a href='/visualizacion-ofertas'>
+              <a href={'/visualizacion-ofertas/'+services.idSolicitud}>
               <div className="card-header">
-                <h5 className="card-title">{services.name}</h5>
-                <p className="card-price">{services.price}</p>
-                <p className="card-body">{services.description}</p>
-                <p className="card-footer">{services.location}</p>
-                <p className="card-footer">{services.date}</p>
+                <h5 className="card-title">{services.nombreServicio}</h5>
+                <p className="card-price">S/. {services.precio}</p>
+                <p className="card-body">{services.descripcion}</p>
+                <p className="card-footer">{services.ubicacion}</p>
+                <p className="card-footer">{services.fechaHoraSolicitud}</p>
               </div>
               </a>
             </div>

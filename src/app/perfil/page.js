@@ -1,11 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_BACK, DOMAIN_FRONT } from '../../../env';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Sidebar from '../components/sidebar';
+import SidebarEpecialista from '../components/sidebarEspecialista';
 import './profile.css';
 
 {/* <img src="" alt="logo" class="img-fluid" style={{maxWidth:'50%',height:'auto'}}  /> */}
@@ -18,17 +19,100 @@ export default function ProfilePage() {
     profilePicture: '/profile.png',
     rating: 4.8,
   });
+
+
+
+  const [id_usuario, setIdUsuario] = useState(0);
+  const [especialista, setEspecialista] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const id_usuario = localStorage.getItem('id_usuarioWORK');
+      const especialista = localStorage.getItem('especialista');
+
+      setIdUsuario(id_usuario);
+      setEspecialista(especialista);
+    }
+  }, [id_usuario]);
+
+
+
+
+
+  const [usuario, setUsuario] = useState([]);
+
+  useEffect(() => {
+    // Fetch usuario from the backend
+    if(id_usuario != 0){
+       fetch(
+         DOMAIN_BACK +
+           '?controller=usuarios&action=traer_usuario&idUsuario=' +
+           id_usuario
+       )
+         .then((response) => response.json())
+         .then((data) => {
+           setUsuario(data);
+         
+         })
+         .catch((error) => console.error('Error al traer datos del usuario:', error));
+    }
+  }, [id_usuario]);
+
+
+  console.log(usuario);
+
+
+
+
+
+
   const [editMode, setEditMode] = useState(false);
 
-  const handleSave = () => {
-    setEditMode(false);
-    toast.success('Tus datos han sido actualizados correctamente.');
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+      try {
+        const response = await fetch(`${DOMAIN_BACK}?controller=usuarios&action=actualizar_cliente&idUsuario=${usuario.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idUsuario: usuario.id,
+            nombre: usuario.nombre,
+            apellido: usuario.apellido,
+            email: usuario.email,
+            telefono: usuario.telefono,
+            contrasena: usuario.contrasena
+          })
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data.estado === 1) {
+          toast.success(data.mensaje);
+          setTimeout(() => {
+            window.location.href = DOMAIN_FRONT+'perfil';
+          }, 2000);
+        } else {
+          toast.error(data.mensaje);
+        }
+      } catch (error) {
+        console.error('Error al actualizar perfil:', error);
+        toast.error('Error al actualizar perfil');
+      }
   };
+
+
 
   return (
     <>
       <ToastContainer />
-      <Sidebar userName={user.name} userRating={user.rating} />
+      {especialista == '0' ? (
+         <Sidebar />
+       ) : (
+        <SidebarEpecialista/>
+      )}
       <section className="profile-section" style={{marginTop:'10rem', marginBottom:'4rem'}}>
         <div className="container">
           <div className="row justify-content-center">
@@ -47,8 +131,8 @@ export default function ProfilePage() {
                       <input
                         type="text"
                         className="form-control p-2"
-                        value={user.name}
-                        onChange={(e) => setUser({ ...user, name: e.target.value })}
+                        value={usuario.nombre}
+                        onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
                         disabled={!editMode}
                       />
                     </div>
@@ -57,14 +141,24 @@ export default function ProfilePage() {
                       <input
                         type="text"
                         className="form-control p-2"
-                        value={user.surname}
-                        onChange={(e) => setUser({ ...user, surname: e.target.value })}
+                        value={usuario.apellido}
+                        onChange={(e) => setUsuario({ ...usuario, apellido: e.target.value })}
                         disabled={!editMode}
                       />
                     </div>
                     <div className="form-group mt-3">
                       <label style={{ color: '#000' }}>Correo</label>
-                      <input type="email" className="form-control p-2" value={user.email} disabled />
+                      <input type="email" className="form-control p-2" value={usuario.email} disabled />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ color: '#000' }}>Teléfono</label>
+                      <input
+                        type="text"
+                        className="form-control p-2"
+                        value={usuario.telefono}
+                        onChange={(e) => setUsuario({ ...usuario, telefono: e.target.value })}
+                        disabled={!editMode}
+                      />
                     </div>
                     {editMode ? (
                       <button type="button" className="form-control btn btn-primary rounded submit px-3" onClick={handleSave}>Guardar</button>

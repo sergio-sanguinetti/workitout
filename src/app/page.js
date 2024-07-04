@@ -48,6 +48,7 @@ export default function Login() {
           localStorage.setItem('nombreWORK', data.nombre);
           localStorage.setItem('apellidoWORK', data.apellido);
           localStorage.setItem('emailWORK', data.email);
+          localStorage.setItem('especialista', data.especialista);
   
           setTimeout(() => {
             window.location.href = DOMAIN_FRONT + 'plataforma';

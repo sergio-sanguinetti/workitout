@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { DOMAIN_BACK } from '../../../env';
+import { DOMAIN_FRONT,DOMAIN_BACK } from '../../../env';
 import Sidebar from '../components/sidebar';
+import SidebarEpecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
 
 const RegisterComplaint = () => {
@@ -15,13 +16,29 @@ const RegisterComplaint = () => {
   });
   const [solicitudes, setSolicitudes] = useState([]);
 
+    
+  const [id_usuario, setIdUsuario] = useState(0);
+  const [especialista, setEspecialista] = useState(0);
+
   useEffect(() => {
-    const id_usuario = localStorage.getItem('id_usuarioWORK');
-    fetch(`${DOMAIN_BACK}?controller=solicitudes&action=traer_solicitudes_por_cliente&idCliente=${id_usuario}`)
-      .then(response => response.json())
-      .then(data => setSolicitudes(data))
-      .catch(error => console.error('Error al obtener solicitudes:', error));
-  }, []);
+    if (typeof window !== 'undefined') {
+      const id_usuario = localStorage.getItem('id_usuarioWORK');
+      const especialista = localStorage.getItem('especialista');
+
+      setIdUsuario(id_usuario);
+      setEspecialista(especialista);
+    }
+  }, [id_usuario]);
+
+
+  useEffect(() => {
+    if(id_usuario != 0){
+      fetch(`${DOMAIN_BACK}?controller=solicitudes&action=traer_solicitudes_por_cliente&idCliente=${id_usuario}`)
+        .then(response => response.json())
+        .then(data => setSolicitudes(data))
+        .catch(error => console.error('Error al obtener solicitudes:', error));
+    }
+  }, [id_usuario]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -31,23 +48,40 @@ const RegisterComplaint = () => {
     }));
   };
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const id_usuario = localStorage.getItem('id_usuarioWORK');
-    const formDataToSubmit = new FormData();
-    formDataToSubmit.append('idCliente', id_usuario);
-    formDataToSubmit.append('idSolicitud', formData.solicitud);
-    formDataToSubmit.append('motivo', formData.motivo);
-    formDataToSubmit.append('descripcion', formData.descripcion);
-    formDataToSubmit.append('imagen', formData.imagen);
+
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('idCliente', id_usuario);
+    formDataToSend.append('idSolicitud', formData.solicitud);
+    formDataToSend.append('motivo', formData.motivo);
+    formDataToSend.append('descripcion', formData.descripcion);
+    formDataToSend.append('imagen', formData.imagen);
+
 
     try {
       const response = await fetch(`${DOMAIN_BACK}?controller=quejas&action=crear_queja`, {
         method: 'POST',
-        body: formDataToSubmit
+        body: formDataToSend,
+        headers: {
+          'Accept': 'application/json',
+        },
+        // body: JSON.stringify({
+        //   idCliente: id_usuario,
+        //   idSolicitud: formData.solicitud,
+        //   motivo: formData.motivo,
+        //   descripcion: formData.descripcion,
+        //   imagen: formData.imagen,
+        // })
       });
 
       const data = await response.json();
+
+      console.log(response);
+      console.log(data);
       if (data.estado === 1) {
         toast.success(data.mensaje);
         setTimeout(() => {
@@ -62,10 +96,17 @@ const RegisterComplaint = () => {
     }
   };
 
+
+
   return (
     <>
       <ToastContainer />
-      <Sidebar />
+       {especialista == '0' ? (
+         <Sidebar />
+       ) : (
+        <SidebarEpecialista/>
+      )}
+
       <section className="ftco-section" style={{ marginTop: '5rem' }}>
         <div className="container">
           <div className="row justify-content-center">

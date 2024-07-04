@@ -2,54 +2,52 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/sidebarEspecialista.js';
 import './visualizacion-solicitudes-especialista.css';
+import { DOMAIN_BACK,DOMAIN_FRONT } from '../../../env.js';
 
-const historialServicios = [
-  {
-    nombreCliente: "Juan Pérez",
-    servicio: "Mascotas",
-    descripcion: "Servicio de bañado a poddle (raza mediana)",
-    direccion: "Av. Arequipa #520",
-    fecha: "2023-02-14", 
-    estado: "EFECTIVO"
-  },
-  {
-    nombreCliente: "Ana García",
-    servicio: "Mascotas",
-    descripcion: "Servicio de bañado a Rottweiler (raza grande)",
-    direccion: "Av. Arequipa #520",
-    fecha: "2024-03-24", 
-    estado: "VAPE"
-  },
-  {
-    nombreCliente: "Carlos Ruiz",
-    servicio: "Limpieza",
-    descripcion: "Servicio limpieza a local",
-    direccion: "Av. Arequipa #520",
-    fecha: "2024-02-03", 
-    estado: "EFECTIVO"
-  },
-  {
-    nombreCliente: "María López",
-    servicio: "Reparación",
-    descripcion: "Servicio de reparación de tuberia",
-    direccion: "Av. Arequipa #520",
-    fecha: "2024-06-13", 
-    estado: "EFECTIVO"
-  },
-  {
-    nombreCliente: "Juan Pérez",
-    servicio: "Mascotas",
-    descripcion: "Servicio de bañado a poddle (raza mediana)",
-    direccion: "Av. Arequipa #520",
-    fecha: "2024-05-05", 
-    estado: "EFECTIVO"
-  }
-];
+
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDate, setFilterDate] = useState('');
-  const [filteredServicios, setFilteredServicios] = useState(historialServicios);
+  const [filteredServicios, setFilteredServicios] = useState([]);
+
+  
+
+       // TRAER LAS SOLICITUDES
+
+       const [id_usuario, setIdUsuario] = useState(0);
+       const [especialista, setEspecialista] = useState(0);
+     
+       useEffect(() => {
+         if (typeof window !== 'undefined') {
+           const id_usuario = localStorage.getItem('id_usuarioWORK');
+           const especialista = localStorage.getItem('especialista');
+     
+           setIdUsuario(id_usuario);
+           setEspecialista(especialista);
+         }
+       }, [id_usuario]);
+
+     
+     
+     useEffect(() => {
+      // Fetch categories from the backend
+      if(id_usuario != 0){
+      fetch(DOMAIN_BACK+'?controller=solicitudes&action=traer_solicitudes&idEspecialista='+id_usuario)
+        .then(response => response.json())
+        .then(data => {
+          setFilteredServicios(data)
+        })
+        .catch(error => console.error('Error al traer solicitud:', error));
+      }
+    }, []);
+
+
+
+    console.log(filteredServicios);
+
+
+
 
   const handleSearch = (event) => {
     const term = event.target.value.toLowerCase();
@@ -64,9 +62,9 @@ const Page = () => {
   };
 
   const filterServices = (term, date) => {
-    const filtered = historialServicios.filter(service =>
-      service.servicio.toLowerCase().includes(term) &&
-      service.fecha.includes(date)
+    const filtered = filteredServicios.filter(service =>
+      service.nombreServicio.toLowerCase().includes(term) &&
+      service.fechaHoraSolicitud.includes(date)
     );
     setFilteredServicios(filtered);
   };
@@ -92,18 +90,34 @@ const Page = () => {
           />
         </div>
         <div className="historial-list">
-          <a href='/visualizacion-solicitud-proceso-especialista'>
+        
           {filteredServicios.map((servicio, index) => (
-            <div key={index} className="historial-item">
-              <h4>{servicio.servicio}</h4>
-              <p>Nombre de cliente: {servicio.nombreCliente}</p>
+            <a href={'/visualizacion-solicitud-proceso-especialista/'+servicio.idSolicitud}>
+            <div key={index} className="historial-item mt-2 p-4">
+              <h4>{servicio.nombreServicio}</h4>
+              <p>Nombre de cliente: {servicio.nombre} {servicio.apellido}</p>
               <p>Descripción: {servicio.descripcion}</p>
-              <p>Dirección: {servicio.direccion}</p>
-              <p>Fecha: {servicio.fecha}</p>
-              <p>Estado: {servicio.estado}</p>
+              <p>Dirección: {servicio.ubicacion}</p>
+              <p>Fecha: {servicio.fechaHoraSolicitud}</p>
+              {servicio.estado == 1 && (
+                   <p className="card-footer alert alert-primary">EN NEGOCIACIÓN</p>
+                )}
+                
+                {servicio.estado == 2 && (
+                   <p className="card-footer alert alert-success">EN PROCESO</p>
+                )}
+
+                {servicio.estado == 3 && (
+                   <p className="card-footer alert alert-secondary">TERMINADA</p>
+                )}
+                {servicio.estado == 4 && (
+                   <p className="card-footer alert alert-darger">CANCELADA</p>
+                )}
+         
             </div>
+            </a>
           ))}
-          </a>
+         
         </div>
       </div>
     </>
