@@ -69,7 +69,7 @@ const Sidebar = () => {
         })
         .catch(error => console.error('Error al traer solicitud:', error));
     
-    }, []);
+    }, [id_usuario]);
 
 
   const [isOpen, setIsOpen] = useState(false);
