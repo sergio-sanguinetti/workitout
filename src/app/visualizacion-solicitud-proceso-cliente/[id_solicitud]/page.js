@@ -169,7 +169,7 @@ const DetalleSolicitud = ({ params }) => {
 
                       {solicitud.calificadaCliente == "0" && (
                        <a href={'/valoracion-cliente/'+id_solicitud}>
-                          <button className="btn btn-primary form-control">Finalizar Solicitud</button>
+                          <button className="btn btn-primary form-control">Calificar Especialista</button>
                          </a>
                       )} 
 
