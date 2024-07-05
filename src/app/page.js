@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useRef} from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_BACK, DOMAIN_FRONT } from '../../env';
@@ -7,6 +7,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import GoogleIcon from '@mui/icons-material/Google';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 
 export default function Login() {
 
@@ -18,6 +20,9 @@ export default function Login() {
 
   //** @async función para logearse a la plataforma */
   const Logearse = async () => {
+
+    if(captcha.current.getValue()){
+
     const regexCorreo = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   
     if (regexCorreo.test(correo) && contraseña.length > 0) {
@@ -71,8 +76,33 @@ export default function Login() {
         position: "top-center"
       });
     }
+
+  } else {
+        
+    toast.error('Por favor Seleccionar el Captcha', {
+     position: "top-center",
+     autoClose: 5000,
+     hideProgressBar: false,
+     closeOnClick: true,
+     pauseOnHover: true,
+     draggable: true,
+     progress: undefined,
+     theme: "light",
+     });
+   }
   }
-  
+
+
+
+    const captcha = useRef(null);
+
+      const onChange = async () => {
+          if(captcha.current.getValue()){
+              console.log('El usuario no es un robot');
+          }
+      }
+
+
 
 
   const toggleShowPassword = () => {
@@ -117,14 +147,20 @@ export default function Login() {
                         </div>
                       </div>
                     </div>
-                    <div className="form-group">
+                    <div className="text-center">
+                        <div className="recapcha">
+                         <ReCAPTCHA ref={captcha} sitekey="6LcWtkwpAAAAAN9xFZUwhRj2zkDtbOAMS4iTFUP_" onChange={onChange}/>
+                        </div>
+                     </div>
+                    <div className="form-group mt-3">
                       <button type="button" className="form-control btn btn-primary rounded submit px-3" onClick={Logearse}>INGRESAR</button>
                     </div>
-                    <div className="form-group d-md-flex">
+                  
+                    {/* <div className="form-group d-md-flex">
                       <div className="w-50 text-md-left">
                         <a href="#" style={{ color: '#01d28e' }}>Te olvidaste la contraseña?</a>
                       </div>
-                    </div>
+                    </div> */}
                   </form>
                   <p className="text-center">Aún no te registras? <a data-toggle="tab" href={DOMAIN_FRONT+'registro'}>REGISTRARSE</a></p>
                  

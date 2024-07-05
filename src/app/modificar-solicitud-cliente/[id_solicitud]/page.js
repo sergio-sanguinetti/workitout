@@ -90,7 +90,7 @@ const DetalleSolicitudEditable = ({params}) => {
             idSolicitud: solicitud.idSolicitud,
             descripcionServicio: solicitud.descripcion,
             direccion: solicitud.direccion,
-            fechaHoraAtencion: solicitud.fechaHora,
+            fechaHoraSolicitud: solicitud.fechaHora,
             precio: solicitud.precio,
             estado: 1
           })

@@ -11,39 +11,15 @@ export default function PlataformaEspecialista() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const services = [
-    {
-      name: "Remodelación y construcción",
-      price: "S/1000.00",
-      description: "Renovación de departamentos y casas",
-      location: "Av. Mariano melgar #304",
-      date: "Hoy"
-    },
-    {
-      name: "Limpieza",
-      price: "S/80.00",
-      description: "Lavado de carro",
-      location: "Jose Galves #520",
-      date: "Hoy"
-    },
-    {
-      name: "Asistencia doméstica",
-      price: "1500.00",
-      description: "Servicio de niñera",
-      location: "Av. 12 de octubre #601 alto Selva Alegre",
-      date: "Mañana"
-    }
-    // Agrega más servicios según sea necesario
-  ];
-
+ 
   const [filteredServices, setFilteredServices] = useState([]);
 
 
 
        const filtrarServiciosCorrectos = (data) => {
          const filteredData = data.filter(item => {
-           const isEstadoEqualToOne = item.estado === "1";
-           const isFechaHoraSolicitudVigente = new Date(item.fechaHoraSolicitud) > new Date();
+           const isEstadoEqualToOne = item.estado == "1";
+           const isFechaHoraSolicitudVigente = new Date(item.fechaHoraSolicitud) >= new Date();
            return isEstadoEqualToOne && isFechaHoraSolicitudVigente;
          });
        
@@ -60,6 +36,9 @@ export default function PlataformaEspecialista() {
        fetch(DOMAIN_BACK+'?controller=solicitudes&action=traer_solicitudes')
          .then(response => response.json())
          .then(data => {
+
+
+           console.log(data);
              
            const serviciosCorrectos = filtrarServiciosCorrectos(data);
           setFilteredServices(serviciosCorrectos)
@@ -116,36 +95,56 @@ export default function PlataformaEspecialista() {
     setIsSidebarOpen(open);
   };
 
+
+  const [especialista, setEspecialista] = useState(1);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Asegúrate de que el código solo se ejecuta en el cliente
+      const especialista = localStorage.getItem('especialista');
+      setEspecialista(especialista);
+    }
+  }, []);
+
+
   return (
     <>
       <SidebarEspecialista isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
       <div className="content" style={{ maxWidth: '700px', margin: '9rem auto' }}>
-        <h3 className='color-primary text-center'><b>Empieza a ver las ofertas que hay para ti</b></h3>
-        <div className="row justify-content-center mb-4">
-          <div className="col-md-6">
-            <input
-              type="text"
-              placeholder="¿Qué estás buscando?"
-              onChange={handleSearch}
-              className="form-control"
-            />
-          </div>
-        </div>
-        <div className="card-container" >
-          {filteredServices.map(services => (
-            <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
-              <a href={'/visualizacion-ofertas/'+services.idSolicitud}>
-              <div className="card-header">
-                <h5 className="card-title">{services.nombreServicio}</h5>
-                <p className="card-price">S/. {services.precio}</p>
-                <p className="card-body">{services.descripcion}</p>
-                <p className="card-footer">{services.ubicacion}</p>
-                <p className="card-footer">{services.fechaHoraSolicitud}</p>
+        {especialista == '1' ? (
+          <>
+            <h3 className='color-primary text-center'><b>Empieza a ver las ofertas que hay para ti</b></h3>
+            <div className="row justify-content-center mb-4">
+              <div className="col-md-6">
+                <input
+                  type="text"
+                  placeholder="¿Qué estás buscando?"
+                  onChange={handleSearch}
+                  className="form-control"
+                />
               </div>
-              </a>
             </div>
-          ))}
-        </div>
+            <div className="card-container" >
+              {filteredServices.map(services => (
+                <div key={services.name} className="card" onClick={() => handleClick(services.name)} style={{marginTop:"1rem"}}>
+                  <a href={'/visualizacion-ofertas/'+services.idSolicitud}>
+                  <div className="card-header">
+                    <h5 className="card-title">{services.nombreServicio}</h5>
+                    <p className="card-price">S/. {services.precio}</p>
+                    <p className="card-body">{services.descripcion}</p>
+                    <p className="card-footer">{services.ubicacion}</p>
+                    <p className="card-footer">{services.fechaHoraSolicitud}</p>
+                  </div>
+                  </a>
+                </div>
+              ))}
+            </div>
+           </>
+          ) : (
+            <>
+              <h3 className='color-primary text-center'><b>Registrate como especialista para poder ver las solicitudes</b></h3>
+              <img src="/buscar.png" width="100%"/>
+            </>
+          )}
       </div>
     </>
   );

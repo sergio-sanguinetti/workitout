@@ -139,6 +139,7 @@ const Sidebar = () => {
            <ListItemText primary="Registro Quejas" />
          </ListItem>
        </Link>
+       {especialista == '1' && (
        <Link href="visualizacion-solicitudes-especialista">
          <ListItem className="item-list">
            <ListItemIcon>
@@ -147,6 +148,7 @@ const Sidebar = () => {
            <ListItemText primary="Historial" />
          </ListItem>
        </Link>
+        )}
        <Link href="#">
          <ListItem className="item-list">
            <ListItemIcon>

@@ -67,6 +67,8 @@ const DetalleSolicitud = ({ params }) => {
       .catch((error) => console.error('Error al traer las negociaciones:', error));
   }, []);
 
+
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -161,11 +163,14 @@ const DetalleSolicitud = ({ params }) => {
                          <a href="#">
                           <button className="btn btn-dark form-control">Solicitud en Proceso</button>
                          </a>
-                         <a href={'/valoracion-cliente/'+id_solicitud}>
-                             <button className="btn btn-primary form-control">Finalizar Solicitud</button>
-                         </a>
                         </>
                     )} 
+
+                      {solicitud.calificadaCliente == "0" && (
+                       <a href={'/valoracion-cliente/'+id_solicitud}>
+                          <button className="btn btn-primary form-control">Finalizar Solicitud</button>
+                         </a>
+                      )} 
 
                       {solicitud.estado == "3" && (
                        <>
@@ -197,7 +202,7 @@ const DetalleSolicitud = ({ params }) => {
           {negociaciones.map((negociacion) => (
             <center key={`${negociacion.idEspecialista}-${negociacion.precio}`}>
               <ul className='p-1' style={{ textDecoration: 'none', listStyle: 'none', border: '2px solid #e1e1e1' }}>
-                <li>Especialista: {negociacion.idEspecialista}</li>
+                <li>Especialista: {negociacion.nombre} {negociacion.apellido}</li>
                 <li>S/. {negociacion.precio}</li>
                 <Button className='btn btn-primary mb-2' onClick={() => handleSubmit(negociacion)}>
                   Aceptar Precio
