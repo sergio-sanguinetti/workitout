@@ -43,6 +43,7 @@ const DetalleSolicitud = ({ params }) => {
           fechaHora: data.fechaHoraSolicitud,
           numeroSolicitud: data.idSolicitud,
           direccion: data.ubicacion,
+          calificadaCliente: data.calificadaCliente,
         });
       })
       .catch((error) => console.error('Error al traer solicitud:', error));
