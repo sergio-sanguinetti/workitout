@@ -5,8 +5,19 @@ import '../boostrap.css';
 import Sidebar from '../components/sidebar';
 import '../estilos/globales.css';
 import { DOMAIN_BACK, DOMAIN_FRONT } from '../../../env';
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
 
 export default function Inicio() {
+
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
+
+  console.log(decodedToken);
+  console.log(isExpired);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState(services);

@@ -7,10 +7,16 @@ import '../estilos/globales.css';
 
 import { DOMAIN_FRONT,DOMAIN_BACK} from '../../../env';
 
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
 
 
 
 export default function Inicio() {
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredServices, setFilteredServices] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -21,14 +27,11 @@ export default function Inicio() {
    const [especialista, setEspecialista] = useState(0);
  
    useEffect(() => {
-     if (typeof window !== 'undefined') {
-       const id_usuario = localStorage.getItem('id_usuarioWORK');
-       const especialista = localStorage.getItem('especialista');
- 
-       setIdUsuario(id_usuario);
-       setEspecialista(especialista);
-     }
-   }, [id_usuario]);
+    if (decodedToken) {
+      setIdUsuario(decodedToken.data.id);
+      setEspecialista(decodedToken.data.especialista);
+    }
+  }, [decodedToken]);
  
  
  useEffect(() => {

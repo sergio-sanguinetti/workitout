@@ -5,8 +5,15 @@ import './visualizacion-solicitudes-especialista.css';
 import { DOMAIN_BACK,DOMAIN_FRONT } from '../../../env.js';
 
 
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
 
 const Page = () => {
+
+  
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDate, setFilterDate] = useState('');
   const [filteredServicios, setFilteredServicios] = useState([]);
@@ -17,17 +24,13 @@ const Page = () => {
 
        const [id_usuario, setIdUsuario] = useState(0);
        const [especialista, setEspecialista] = useState(0);
-     
+ 
        useEffect(() => {
-         if (typeof window !== 'undefined') {
-           const id_usuario = localStorage.getItem('id_usuarioWORK');
-           const especialista = localStorage.getItem('especialista');
-     
-           setIdUsuario(id_usuario);
-           setEspecialista(especialista);
-         }
-       }, [id_usuario]);
-
+        if (decodedToken) {
+          setIdUsuario(decodedToken.data.id);
+          setEspecialista(decodedToken.data.especialista);
+        }
+      }, [decodedToken]);
      
      
      useEffect(() => {

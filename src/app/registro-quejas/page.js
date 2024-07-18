@@ -6,8 +6,15 @@ import { DOMAIN_FRONT,DOMAIN_BACK } from '../../../env';
 import Sidebar from '../components/sidebar';
 import SidebarEpecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
+
 
 const RegisterComplaint = () => {
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
   const [formData, setFormData] = useState({
     solicitud: '',
     motivo: '',
@@ -21,14 +28,12 @@ const RegisterComplaint = () => {
   const [especialista, setEspecialista] = useState(0);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const id_usuario = localStorage.getItem('id_usuarioWORK');
-      const especialista = localStorage.getItem('especialista');
-
-      setIdUsuario(id_usuario);
-      setEspecialista(especialista);
+    if (decodedToken) {
+      setIdUsuario(decodedToken.data.id);
+      setEspecialista(decodedToken.data.especialista);
     }
-  }, [id_usuario]);
+  }, [decodedToken]);
+ 
 
 
   useEffect(() => {

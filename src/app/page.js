@@ -49,12 +49,8 @@ export default function Login() {
             position: "top-right"
           });
           
-          localStorage.setItem('id_usuarioWORK', data.id);
-          localStorage.setItem('nombreWORK', data.nombre);
-          localStorage.setItem('apellidoWORK', data.apellido);
-          localStorage.setItem('emailWORK', data.email);
-          localStorage.setItem('especialista', data.especialista);
-  
+          localStorage.setItem('token_WORK', data.token);
+
           setTimeout(() => {
             window.location.href = DOMAIN_FRONT + 'plataforma';
           }, 2000);

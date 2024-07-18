@@ -5,6 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../components/sidebar';
 import '../RegistroSolicitud.css';
 import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../../env';
+import useToken  from '../../utils/auth';
+import { useJwt } from "react-jwt";
+
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -31,6 +34,10 @@ const ChangeMapView = ({ coords }) => {
 };
 
 const RegistroSolicitud = ({ params }) => {
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
   const id_categoria = params.categoria;
 
   const [position, setPosition] = useState([51.505, -0.09]); // Default position
@@ -98,15 +105,11 @@ const RegistroSolicitud = ({ params }) => {
   const [especialista, setEspecialista] = useState(0);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const id_usuario = localStorage.getItem('id_usuarioWORK');
-      const especialista = localStorage.getItem('especialista');
-
-      setIdUsuario(id_usuario);
-      setEspecialista(especialista);
+    if (decodedToken) {
+      setIdUsuario(decodedToken.data.id);
+      setEspecialista(decodedToken.data.especialista);
     }
-  }, [id_usuario]);
-
+  }, [decodedToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

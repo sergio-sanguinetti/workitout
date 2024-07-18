@@ -8,6 +8,11 @@ import styles from './registroEspecialista.module.css';
 import '../estilos/globales.css';
 import SidebarEspecialista from '../components/sidebarEspecialista';
 
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
+
+
+
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -22,8 +27,8 @@ const steps = ['Datos Personales', 'Información trabajo'];
 
 export default function RegisterSpecialist() {
 
-
-
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
 
 
 const [categorias, setCategorias] = useState([]);
@@ -132,6 +137,17 @@ useEffect(() => {
         setEspecialidades(e)
   }
 
+  const [id_usuario, setIdUsuario] = useState(0);
+  const [especialista, setEspecialista] = useState(0);
+
+  useEffect(() => {
+   if (decodedToken) {
+     setIdUsuario(decodedToken.data.id);
+     setEspecialista(decodedToken.data.especialista);
+   }
+ }, [decodedToken]);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,7 +155,7 @@ useEffect(() => {
     console.log(formData);
     console.log(especialidades);
     const valores = especialidades.map(especialidad => especialidad.value);
-    const id_usuario = localStorage.getItem('id_usuarioWORK');
+   
 
     console.log(JSON.stringify(valores));
 

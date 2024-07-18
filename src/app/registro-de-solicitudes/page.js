@@ -8,6 +8,8 @@ import Sidebar from '../components/sidebar';
 import './RegistroSolicitud.css';
 import { DOMAIN_FRONT, DOMAIN_BACK } from '../../../env';
 import useIsClient from '../../hooks/useIsCLient';
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
 
 
 import Button from '@mui/material/Button';
@@ -50,6 +52,11 @@ const ChangeMapView = ({ coords }) => {
 };
 
 const RegistroSolicitud = () => {
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
+
   const isClient = useIsClient(); // Usa el hook personalizado
 
   const [position, setPosition] = useState([51.505, -0.09]); // Ubicación inicial (Londres)
@@ -171,14 +178,13 @@ const RegistroSolicitud = () => {
   const [especialista, setEspecialista] = useState(0);
 
   useEffect(() => {
-    if (isClient) {
-      const id_usuario = localStorage.getItem('id_usuarioWORK');
-      const especialista = localStorage.getItem('especialista');
-
-      setIdUsuario(id_usuario);
-      setEspecialista(especialista);
+    if (isClient && decodedToken) {
+      setIdUsuario(decodedToken.data.id);
+      setEspecialista(decodedToken.data.especialista);
     }
-  }, [isClient]);
+  }, [isClient, decodedToken]);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -6,8 +6,14 @@ import SidebarEspecialista from '../components/sidebarEspecialista';
 import '../estilos/globales.css';
 import './platform-especialista.css';
 import { DOMAIN_BACK } from '../../../env';
+import useToken  from '../utils/auth';
+import { useJwt } from "react-jwt";
 
 export default function PlataformaEspecialista() {
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -97,13 +103,14 @@ export default function PlataformaEspecialista() {
 
 
   const [especialista, setEspecialista] = useState(1);
+
+   
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Asegúrate de que el código solo se ejecuta en el cliente
-      const especialista = localStorage.getItem('especialista');
-      setEspecialista(especialista);
+    if (decodedToken) {
+      setEspecialista(decodedToken.data.especialista);
     }
-  }, []);
+  }, [decodedToken]);
+ 
 
 
   return (
