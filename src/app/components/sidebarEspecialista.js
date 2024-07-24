@@ -21,29 +21,40 @@ import Person4Icon from '@mui/icons-material/Person4';
 import './listaSidebar.css'
 import '../estilos/globales.css'
 import { DOMAIN_FRONT,DOMAIN_BACK } from '../../../env';
+import useToken from '../utils/auth';
+import { useJwt } from "react-jwt";
+
 
 const Sidebar = () => {
 
+  
+
+  const { Token } = useToken();
+  const { decodedToken, isExpired } = useJwt(Token);
+
+  console.log(decodedToken);
+
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}`;
+  //   }
+  // }, [isExpired, decodedToken]);
+  
   
   const [id_usuario, setIdUsuario] = useState(0);
   const [especialista, setEspecialista] = useState(0);
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Asegúrate de que el código solo se ejecuta en el cliente
-      const id_usuario = localStorage.getItem('id_usuarioWORK');
-      const nombreWORK = localStorage.getItem('nombreWORK');
-      const apellidoWORK = localStorage.getItem('apellidoWORK');
-      const especialista = localStorage.getItem('especialista');
-      setNombre(nombreWORK);
-      setApellido(apellidoWORK);
-      setIdUsuario(id_usuario);
-      setEspecialista(especialista);
-    }
-  }, []);
 
+  useEffect(() => {
+    if (decodedToken) {
+      setIdUsuario(decodedToken.data.id);
+      setEspecialista(decodedToken.data.especialista);
+      setNombre(decodedToken.data.nombre);
+      setApellido(decodedToken.data.apellido);
+    }
+  }, [decodedToken]);
 
 
   // OBTENER PROMEDIO DE CALIFICACIONES
@@ -52,6 +63,7 @@ const Sidebar = () => {
      const [promedios, setPromedios] = useState([])
  
      useEffect(() => {
+      if(id_usuario != 0){
       // Fetch categories from the backend
       fetch(DOMAIN_BACK+'?controller=valoraciones&action=traer_calificaciones&idEspecialista='+id_usuario)
         .then(response => response.json())
@@ -67,8 +79,12 @@ const Sidebar = () => {
                 setPromedios(promedio)
         })
         .catch(error => console.error('Error al traer solicitud:', error));
-    
+      }
     }, [id_usuario]);
+
+
+
+    console.log(promedios);
 
 
   const [isOpen, setIsOpen] = useState(false);

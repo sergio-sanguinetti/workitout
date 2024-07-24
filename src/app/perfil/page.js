@@ -15,6 +15,12 @@ export default function ProfilePage() {
   const { Token } = useToken();
   const { decodedToken, isExpired } = useJwt(Token);
 
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}/login`;
+  //   }
+  // }, [isExpired, decodedToken]);
+
   const [user, setUser] = useState({
     name: 'Nombre Usuario',
     surname: 'Apellido Usuario',

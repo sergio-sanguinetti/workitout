@@ -10,6 +10,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
 
 const DetalleSolicitud = ({ params }) => {
   const id_solicitud = params.id_solicitud;
@@ -69,6 +71,10 @@ const DetalleSolicitud = ({ params }) => {
   }, []);
 
 
+
+
+
+  console.log(negociaciones);
 
   const [open, setOpen] = useState(false);
 
@@ -202,8 +208,8 @@ const DetalleSolicitud = ({ params }) => {
         <DialogContent>
           {negociaciones.map((negociacion) => (
             <center key={`${negociacion.idEspecialista}-${negociacion.precio}`}>
-              <ul className='p-1' style={{ textDecoration: 'none', listStyle: 'none', border: '2px solid #e1e1e1' }}>
-                <li>Especialista: {negociacion.nombre} {negociacion.apellido}</li>
+              <ul className='p-1' style={{ textDecoration: 'none', listStyle: 'none', border: '02px solid #e1e1e1' }}>
+                <li>Especialista: {negociacion.nombre} {negociacion.apellido} <br></br> Calificación:<span style={{padding:'10px',marginTop:'35px'}}> <Rating name="size-medium" readOnly  precision={0.5} defaultValue={negociacion.promedioPuntuacion} /></span></li>
                 <li>S/. {negociacion.precio}</li>
                 <Button className='btn btn-primary mb-2' onClick={() => handleSubmit(negociacion)}>
                   Aceptar Precio

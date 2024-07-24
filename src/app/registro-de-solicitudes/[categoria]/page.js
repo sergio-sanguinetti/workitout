@@ -38,6 +38,12 @@ const RegistroSolicitud = ({ params }) => {
   const { Token } = useToken();
   const { decodedToken, isExpired } = useJwt(Token);
 
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}/login`;
+  //   }
+  // }, [isExpired, decodedToken]);
+
   const id_categoria = params.categoria;
 
   const [position, setPosition] = useState([51.505, -0.09]); // Default position

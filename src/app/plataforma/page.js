@@ -15,8 +15,12 @@ export default function Inicio() {
   const { decodedToken, isExpired } = useJwt(Token);
 
 
-  console.log(decodedToken);
-  console.log(isExpired);
+
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}/login`;
+  //   }
+  // }, [isExpired, decodedToken]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [services, setServices] = useState([]);

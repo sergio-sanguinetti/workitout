@@ -11,6 +11,15 @@ import { useJwt } from "react-jwt";
 
 export default function PlataformaEspecialista() {
 
+
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}/login`;
+  //   }
+  // }, [isExpired, decodedToken]);
+
+  
+
   const { Token } = useToken();
   const { decodedToken, isExpired } = useJwt(Token);
 

@@ -5,6 +5,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_FRONT,DOMAIN_BACK } from '../../../env';
 import Sidebar from '../components/sidebar';
 import SidebarEpecialista from '../components/sidebarEspecialista';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import '../estilos/globales.css';
 import useToken  from '../utils/auth';
 import { useJwt } from "react-jwt";
@@ -14,6 +19,12 @@ const RegisterComplaint = () => {
 
   const { Token } = useToken();
   const { decodedToken, isExpired } = useJwt(Token);
+
+  useEffect(() => {
+    if (isExpired || !decodedToken) {
+      window.location.href = `${DOMAIN_FRONT}/login`;
+    }
+  }, [isExpired, decodedToken]);
 
   const [formData, setFormData] = useState({
     solicitud: '',
@@ -53,6 +64,16 @@ const RegisterComplaint = () => {
     }));
   };
 
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    window.location.href = DOMAIN_FRONT + 'plataforma';
+  };
   
 
   const handleSubmit = async (e) => {
@@ -89,9 +110,11 @@ const RegisterComplaint = () => {
       console.log(data);
       if (data.estado === 1) {
         toast.success(data.mensaje);
-        setTimeout(() => {
-          window.location.href = DOMAIN_FRONT + 'plataforma';
-        }, 2000);
+
+        handleClickOpen();
+        // setTimeout(() => {
+        //   window.location.href = DOMAIN_FRONT + 'plataforma';
+        // }, 2000);
       } else {
         toast.error(data.mensaje);
       }
@@ -192,6 +215,26 @@ const RegisterComplaint = () => {
           </div>
         </div>
       </section>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Su queja de registró corretamente , pronto le enviaremos la respuesta a su correo este sera en un plazo de 2-3 días hábiles"}
+        </DialogTitle>
+        <DialogContent>
+          <center>  
+            <img src='/terminada.png' width='60%'></img>
+          </center>
+        </DialogContent>
+        <DialogActions>
+          <Button className='btn btn-primary' onClick={handleClose} autoFocus>
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

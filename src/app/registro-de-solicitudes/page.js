@@ -57,6 +57,12 @@ const RegistroSolicitud = () => {
   const { decodedToken, isExpired } = useJwt(Token);
 
 
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}/login`;
+  //   }
+  // }, [isExpired, decodedToken]);
+
   const isClient = useIsClient(); // Usa el hook personalizado
 
   const [position, setPosition] = useState([51.505, -0.09]); // Ubicación inicial (Londres)
