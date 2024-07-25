@@ -128,7 +128,7 @@ export default function ProfilePage() {
                             className="form-control p-2"
                             value={usuario.nombre}
                             onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
-                            disabled={!editMode}
+                            disabled
                           />
                         </div>
                         <div className="form-group mt-3">
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                             className="form-control p-2"
                             value={usuario.apellido}
                             onChange={(e) => setUsuario({ ...usuario, apellido: e.target.value })}
-                            disabled={!editMode}
+                            disabled
                           />
                         </div>
                         <div className="form-group mt-3">

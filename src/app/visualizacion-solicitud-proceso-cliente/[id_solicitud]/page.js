@@ -115,6 +115,9 @@ const DetalleSolicitud = ({ params }) => {
     }
   };
 
+
+  // console.log(solicitud);
+
   return (
     <>
       <Sidebar />
@@ -156,7 +159,7 @@ const DetalleSolicitud = ({ params }) => {
                       <h6>Dirección</h6>
                       <p>{solicitud.direccion}</p>
                     </div>
-                    {solicitud.estado == "1" ? (
+                    {solicitud.estado == 1 ? (
                       <a href={'/modificar-solicitud-cliente/' + solicitud.idSolicitud}>
                         <button className="btn btn-primary form-control">Cambiar la solicitud</button>
                       </a>
@@ -164,7 +167,7 @@ const DetalleSolicitud = ({ params }) => {
                         null
                     )}
 
-                    {solicitud.estado == "2" && (
+                    {solicitud.estado == 2 && (
                        <>
                          <img src="/trabajando.png" width="100%" height=""/>
                          <a href="#">
@@ -173,13 +176,13 @@ const DetalleSolicitud = ({ params }) => {
                         </>
                     )} 
 
-                      {solicitud.calificadaCliente == "0" && (
+                      {solicitud.calificadaCliente == 0 && solicitud.estado == 3 && (
                        <a href={'/valoracion-cliente/'+id_solicitud}>
                           <button className="btn btn-primary form-control">Calificar Especialista</button>
                          </a>
                       )} 
 
-                      {solicitud.estado == "3" && (
+                      {solicitud.estado == 3 && (
                        <>
                         <img src="/terminada.png" width="100%" height=""/>
                          <a href="#">

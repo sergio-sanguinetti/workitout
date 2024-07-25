@@ -20,11 +20,11 @@ const RegisterComplaint = () => {
   const { Token } = useToken();
   const { decodedToken, isExpired } = useJwt(Token);
 
-  useEffect(() => {
-    if (isExpired || !decodedToken) {
-      window.location.href = `${DOMAIN_FRONT}/login`;
-    }
-  }, [isExpired, decodedToken]);
+  // useEffect(() => {
+  //   if (isExpired || !decodedToken) {
+  //     window.location.href = `${DOMAIN_FRONT}/login`;
+  //   }
+  // }, [isExpired, decodedToken]);
 
   const [formData, setFormData] = useState({
     solicitud: '',

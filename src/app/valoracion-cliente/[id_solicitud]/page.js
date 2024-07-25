@@ -17,6 +17,8 @@ export default function ValoracionEspecialista({params}) {
   const [solicitud, setSolicitud] = useState({
     nombres: '',
     apellidos: '',
+    nombres_es: '',
+    apellidos_es: '',
     telefono: '',
     categoria: '',
     estado: '',
@@ -42,6 +44,8 @@ export default function ValoracionEspecialista({params}) {
         setSolicitud({
           nombres: data.nombre,
           apellidos: data.apellido,
+          nombres_es: data.nombre_es,
+          apellidos_es: data.apellido_es,
           telefono: data.telefono,
           idCliente: data.idCliente,
           idSolicitud: data.idSolicitud,
@@ -56,6 +60,9 @@ export default function ValoracionEspecialista({params}) {
       })
       .catch((error) => console.error('Error al traer solicitud:', error));
   }, []);
+
+
+  console.log(solicitud);
 
 
   const [rating, setRating] = useState(5);
@@ -103,7 +110,7 @@ export default function ValoracionEspecialista({params}) {
           {/* Aquí va la imagen del cliente */}
            <img src="/calificar.png" width={'100%'}/>
         </div>
-        <p className='mt-2'>{solicitud.nombres} {solicitud.apellidos}</p>
+        <p className='mt-2'>{solicitud.nombres_es} {solicitud.apellidos_es}</p>
       </div>
       <div className={styles.rating}>
         <p>¿Cómo fue tu experiencia con el especialista?</p>

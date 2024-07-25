@@ -44,7 +44,7 @@ const Sidebar = () => {
   
 
   useEffect(() => {
-    console.log('Token expiration status:', isExpired);
+    // console.log('Token expiration status:', isExpired);
   }, [isExpired]);
   
 
